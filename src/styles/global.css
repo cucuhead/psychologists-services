@@ -1,0 +1,72 @@
+:root {
+  /* Renkler (UI Kit + Senin Gradyan Seçimin) */
+  --color-green-main: #54be96; /* UI Kit orijinal yeşil */
+  --color-green-dark: #1f4037; /* Gradyan koyu uç */
+  --color-green-light: #99f2c8; /* Gradyan açık uç */
+  
+  /* Senin İstediğin Canlı Gradyan */
+  --gradient-green: linear-gradient(to right, #99f2c8, #1f4037);
+  --gradient-green-hover: linear-gradient(to right, #1f4037, #99f2c8); /* Ters efekt */
+
+  --color-black: #191a15;       /* Başlıklar ve ana metin */
+  --color-gray: #8a8a89;        /* Açıklamalar ve ikincil metinler */
+  --color-white: #ffffff;
+  --color-yellow: #ffc531;      /* Yıldız ikonu rengi */
+  --color-bg-light: #f3f3f3;    /* Kart arka planları ve inputlar */
+
+  /* Yazı Tipleri */
+  --font-main: 'Inter', -apple-system, sans-serif;
+
+  /* Köşe Yuvarlaklıkları (UI Kit'e uygun) */
+  --radius-button: 30px;        /* Ana butonlar için */
+  --radius-card: 24px;          /* Psikolog kartları için */
+  --radius-input: 12px;         /* Form elemanları için */
+
+  /* Animasyonlar */
+  --transition: all 0.3s ease;
+}
+
+/* Temel Reset ve Global Ayarlar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sayfa genelinde gradyanlı butonları kullanmak için hazır sınıf */
+.btn-primary {
+  background: var(--gradient-green);
+  color: var(--color-white);
+  border: none;
+  padding: 14px 28px;
+  border-radius: var(--radius-button);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary:hover {
+  background: var(--gradient-green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 64, 55, 0.2);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
