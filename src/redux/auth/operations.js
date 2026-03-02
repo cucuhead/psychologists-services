@@ -31,3 +31,32 @@ export const register = createAsyncThunk(
     }
   }
 );
+// Giriş Yapma (Login)
+export const logIn = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      return {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Oturumu Kapatma (Logout)
+export const logOut = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
