@@ -89,7 +89,7 @@ color: var(--color-white);
   
 }
 .loginBtn:hover {
-  background: var(--gradient-green-hover); /* Gradyan yön değiştirir */
+ 
   transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
   box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); /* Yumuşak bir gölge */
 }
@@ -100,7 +100,7 @@ color: var(--color-white);
   border:none;
 }
 .registerBtn:hover {
-  background: var(--gradient-green-hover);
+ 
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3);
 }
