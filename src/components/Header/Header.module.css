@@ -2,7 +2,7 @@
 .header {
   width: 100%;
   border-bottom: 1px solid rgba(25, 26, 21, 0.1);
-  background-color: #fff;
+  background-color: var(--color-white);
   padding: 20px 0;
   position: relative;
 }
@@ -20,12 +20,12 @@
   font-size: 20px;
   font-weight: 700;
   text-decoration: none;
-  color: #191A15;
+  color: var(--color-black);
   white-space: nowrap;
 }
 
 .logoServices {
-  color: #54be96;
+  color: #96d6c5;
 }
 
 /* Mobilde Navigasyon Kapalı */
@@ -35,7 +35,7 @@
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--color-white);
   flex-direction: column;
   padding: 20px;
   gap: 20px;
@@ -44,17 +44,27 @@
 }
 
 .navOpen {
-  display: flex; /* Hamburger tıklandığında açılır */
+  display: flex;
 }
 
 .link {
   text-decoration: none;
-  color: #191A15;
+  color: var(--color-black);
   font-weight: 400;
-  transition: color 0.3s;
+ transition: var(--transition); /* Yumuşak geçiş için */
+  cursor: pointer;
+}
+.link:hover {
+  color: #96d6c5; /* Senin seçtiğin yeşil tonu */
+  /* Altına çok hafif bir çizgi veya gölge istersen: */
+  text-shadow: 0px 0px 1px rgba(150, 214, 197, 0.5);
+}
+.link:global(.active) {
+  color: #96d6c5;
+  font-weight: 600;
 }
 
-/* Mobilde Küçük Butonlar */
+/* --- AUTH BUTONLARI --- */
 .authWrapper {
   display: flex;
   align-items: center;
@@ -63,49 +73,86 @@
 
 .loginBtn, .registerBtn {
   padding: 8px 16px;
+  cursor:pointer;
   font-size: 13px;
-  border-radius: 30px;
+  border-radius: var(--radius-button);
   text-decoration: none;
-  transition: all 0.3s;
+  transition: var(--transition);
+  font-weight: 500;
 }
 
 .loginBtn {
-  border: 1px solid rgba(25, 26, 21, 0.2);
-  color: #191A15;
+ border:none;
+color: var(--color-white);
+   background: var(--gradient-green); 
+   margin-right: 8px;;
+  
+}
+.loginBtn:hover {
+  background: var(--gradient-green-hover); /* Gradyan yön değiştirir */
+  transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
+  box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); /* Yumuşak bir gölge */
 }
 
 .registerBtn {
-  background-color: #54be96;
-  color: #fff;
+  background: var(--gradient-green); 
+  color: var(--color-white);
+  border:none;
+}
+.registerBtn:hover {
+  background: var(--gradient-green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3);
+}
+/* Aktif basılma hissi için (Click) */
+.loginBtn:active, .registerBtn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
-/* Hamburger Mobilde Görünür */
+/* Hamburger (Merkezleme Düzeltildi) */
 .hamburger {
+    transition: var(--transition);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: center; 
+  align-items: center;
+  width: 32px;
+  height: 32px;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 100;
-  padding: 5px;
+  padding: 0;
+  position: relative; /* Çizgilerin merkeze oturması için şart */
+}
+.hamburger:hover .line {
+  background-color: var(--color-green-main); /* Üzerine gelince çizgiler parlasın */
+  box-shadow: 0 0 8px rgba(84, 190, 150, 0.4);
 }
 
 .line {
   width: 25px;
-  height: 3px;
-  background-color: #191A15;
-  transition: 0.3s;
+  height: 2px;
+  background-color: #96d6c5;
+  transition: all 0.3s ease;
+  position: absolute; /* Hepsini üst üste merkeze toplar */
+  transform-origin: center;
 }
+
+/* Normal Hamburger Çizgileri (Pozisyonları elle ayarlandı) */
+.line:nth-child(1) { transform: translateY(-8px); }
+.line:nth-child(2) { opacity: 1; }
+.line:nth-child(3) { transform: translateY(8px); }
 
 /* --- 💻 BÜYÜK EKRANLAR (DESKTOP) --- */
 @media (min-width: 769px) {
   .hamburger {
-    display: none; /* Büyük ekranda hamburger gider */
+    display: none;
   }
 
   .nav {
-    display: flex; /* Büyük ekranda menü yan yana gelir */
+    display: flex;
     position: static;
     flex-direction: row;
     width: auto;
@@ -115,7 +162,7 @@
   }
 
   .authWrapper {
-    gap: 16px;
+    gap: 8px; 
   }
 
   .loginBtn, .registerBtn {
@@ -124,11 +171,22 @@
   }
 
   .link:hover, :global(.active) {
-    color: #54be96;
+    color: var(--color-green-main);
   }
 }
 
-/* Hamburger Animasyonları (Değişmedi) */
-.lineOpen1 { transform: rotate(-45deg) translate(-5px, 6px); width: 25px; height: 3px; background-color: #191A15; }
-.lineOpen2 { opacity: 0; }
-.lineOpen3 { transform: rotate(45deg) translate(-5px, -6px); width: 25px; height: 3px; background-color: #191A15; }
+/* --- YEŞİL ÇARPI (X) ANİMASYONU --- */
+/* Menü açıkken (navOpen durumu) line sınıflarına binen animasyon */
+.lineOpen1 {
+  transform: rotate(45deg) !important;
+  background-color: #96d6c5;
+}
+
+.lineOpen2 {
+  opacity: 0 !important;
+}
+
+.lineOpen3 {
+  transform: rotate(-45deg) !important;
+  background-color: #96d6c5;
+}

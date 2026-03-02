@@ -1,12 +1,12 @@
 :root {
   /* Renkler (UI Kit + Senin Gradyan Seçimin) */
   --color-green-main: #54be96; /* UI Kit orijinal yeşil */
-  --color-green-dark: #1f4037; /* Gradyan koyu uç */
+  --color-green-dark: #3e7264; /* Gradyan koyu uç */
   --color-green-light: #99f2c8; /* Gradyan açık uç */
   
   /* Senin İstediğin Canlı Gradyan */
-  --gradient-green: linear-gradient(to right, #99f2c8, #1f4037);
-  --gradient-green-hover: linear-gradient(to right, #1f4037, #99f2c8); /* Ters efekt */
+  --gradient-green: linear-gradient(to right, #99f2c8, #3e7264);
+  --gradient-green-hover: linear-gradient(to right, #3e7264, #99f2c8); /* Ters efekt */
 
   --color-black: #191a15;       /* Başlıklar ve ana metin */
   --color-gray: #8a8a89;        /* Açıklamalar ve ikincil metinler */
