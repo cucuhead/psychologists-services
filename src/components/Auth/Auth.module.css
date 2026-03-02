@@ -1,0 +1,91 @@
+.formContainer 
+{ display: flex; 
+  flex-direction: column;
+ }
+.title 
+{ font-size: 40px;
+   font-weight: 600;
+    margin-bottom: 20px; 
+    color: var(--color-black);
+   }
+.description 
+{ font-size: 16px;
+   line-height: 1.25;
+    color: rgba(25, 26, 21, 0.5);
+     margin-bottom: 40px;
+     }
+.form 
+{ display: flex;
+   flex-direction: column;
+    gap: 18px;
+   }
+
+.inputGroup
+ { display: flex;
+   flex-direction: column;
+    gap: 4px;
+   }
+.input {
+  width: 100%; 
+  padding: 16px 18px;
+   border: 1px solid rgba(25, 26, 21, 0.1);
+  border-radius: 12px; 
+  font-size: 16px; 
+  outline: none; 
+  transition: border-color 
+  var(--transition);
+}
+.inputError
+ { border-color: #ff4d4d !important;
+ }
+.errorText 
+{ color: #ff4d4d;
+   font-size: 12px; 
+  }
+
+/* Senin Header Butonların */
+.submitBtn {
+  margin-top: 22px; 
+  padding: 16px;
+   font-size: 16px;
+   font-weight: 500; 
+   border: none;
+  border-radius: var(--radius-button);
+   color: var(--color-white);
+  background: #54be96;;
+   cursor: pointer;
+    transition: var(--transition);
+}
+.submitBtn:hover { 
+   transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); 
+  }
+.submitBtn:active { 
+  transform: translateY(0);
+   box-shadow: none;
+   }
+
+   .passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordIcon {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #191a15;
+  padding: 0;
+}
+
+.input {
+  /* İkonun üzerine yazı gelmemesi için sağdan biraz boşluk */
+  padding-right: 50px !important;
+}
