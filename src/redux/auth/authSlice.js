@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, logIn, logOut } from "./operations"; // Eksik olan buydu!
+import { register, logIn, logOut } from "./operations";
 
 const authSlice = createSlice({
   name: "auth",
@@ -9,44 +9,30 @@ const authSlice = createSlice({
     isRefreshing: false,
     error: null,
   },
+  // Formların içinden doğrudan çağırmak için burayı ekliyoruz
+  reducers: {
+    setCredentials: (state, action) => {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // --- REGISTER (Kayıt Olma) ---
       .addCase(register.fulfilled, (state, action) => {
-        state.user = { 
-          name: action.payload.displayName, 
-          email: action.payload.email 
-        };
+        state.user = { name: action.payload.displayName, email: action.payload.email };
         state.isLoggedIn = true;
-        state.error = null;
       })
-      .addCase(register.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-
-      // --- LOGIN (Giriş Yapma) ---
       .addCase(logIn.fulfilled, (state, action) => {
-        state.user = { 
-          name: action.payload.displayName, 
-          email: action.payload.email 
-        };
+        state.user = { name: action.payload.displayName, email: action.payload.email };
         state.isLoggedIn = true;
-        state.error = null;
       })
-      .addCase(logIn.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-
-      // --- LOGOUT (Çıkış Yapma) ---
       .addCase(logOut.fulfilled, (state) => {
         state.user = { name: null, email: null };
         state.isLoggedIn = false;
-        state.error = null;
-      })
-      .addCase(logOut.rejected, (state, action) => {
-        state.error = action.payload;
       });
   },
 });
 
+export const { setCredentials } = authSlice.actions; // Bunu dışarı açtık
 export const authReducer = authSlice.reducer;

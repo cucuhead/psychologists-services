@@ -52,7 +52,7 @@
    border: none;
   border-radius: var(--radius-button);
    color: var(--color-white);
-  background: var(--gradient-green);
+  background: #54be96;;
    cursor: pointer;
     transition: var(--transition);
 }

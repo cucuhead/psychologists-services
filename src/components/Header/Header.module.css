@@ -25,7 +25,7 @@
 }
 
 .logoServices {
-  color: #96d6c5;
+  color: #54be96;
 }
 
 /* Mobilde Navigasyon Kapalı */
@@ -60,7 +60,7 @@
   text-shadow: 0px 0px 1px rgba(150, 214, 197, 0.5);
 }
 .link:global(.active) {
-  color: #96d6c5;
+  color: #54be96;
   font-weight: 600;
 }
 
@@ -84,8 +84,8 @@
 .loginBtn {
  border:none;
 color: var(--color-white);
-   background: var(--gradient-green); 
-   margin-right: 8px;;
+   background: #54be96; 
+   margin-right: 8px;
   
 }
 .loginBtn:hover {
@@ -95,7 +95,7 @@ color: var(--color-white);
 }
 
 .registerBtn {
-  background: var(--gradient-green); 
+  background:#54be96;
   color: var(--color-white);
   border:none;
 }
@@ -145,6 +145,62 @@ color: var(--color-white);
 .line:nth-child(2) { opacity: 1; }
 .line:nth-child(3) { transform: translateY(8px); }
 
+/* --- GİRİŞ YAPILDIĞINDAKİ HALİ (USER MENU) --- */
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Mobilde daha yakın */
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userIconWrapper {
+  width: 32px;
+  height: 32px;
+  background: #54be96;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userIcon {
+  color: white; /* İkon olduğu için artık bu komut çalışacaktır */
+  font-size: 16px;
+}
+
+.userName {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-black);
+}
+
+.logoutBtn {
+  padding: 8px 16px;
+ 
+  border-radius: var(--radius-button);
+
+  font-weight: 500;
+  font-size: 13px;
+ 
+  cursor: pointer;
+  transition: var(--transition);
+  border:none;
+color: var(--color-white);
+   background:#54be96;
+  
+}
+
+.logoutBtn:hover {
+   transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
+  box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); /* Yumuşak bir gölge */
+}
+
 /* --- 💻 BÜYÜK EKRANLAR (DESKTOP) --- */
 @media (min-width: 769px) {
   .hamburger {
@@ -169,17 +225,42 @@ color: var(--color-white);
     padding: 10px 30px;
     font-size: 16px;
   }
+  .logoutBtn{
+    padding: 10px 25px;
+    font-size: 16px;
+  }
 
   .link:hover, :global(.active) {
     color: var(--color-green-main);
   }
+
+  .userMenu {
+    gap: 28px;
+  }
+
+  .userInfo {
+    gap: 14px;
+  }
+
+  .userIconWrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .userName {
+    font-size: 16px;
+  }
+  
+
+
 }
 
 /* --- YEŞİL ÇARPI (X) ANİMASYONU --- */
 /* Menü açıkken (navOpen durumu) line sınıflarına binen animasyon */
 .lineOpen1 {
   transform: rotate(45deg) !important;
-  background-color: #96d6c5;
+ background: #54be96;;
 }
 
 .lineOpen2 {
@@ -188,5 +269,5 @@ color: var(--color-white);
 
 .lineOpen3 {
   transform: rotate(-45deg) !important;
-  background-color: #96d6c5;
+   background: #54be96;;
 }
