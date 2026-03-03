@@ -1,42 +1,42 @@
 import { useState } from 'react';
-import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux'; // Eklendi
-import { setCredentials } from '../../redux/auth/authSlice'; // Eklendi
+import { useForm } from 'react-hook-form'; // Formik yerine eklendi
+import { yupResolver } from '@hookform/resolvers/yup'; // Resolver eklendi
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../redux/auth/authSlice';
 import { loginSchema } from './validationSchema';
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
 import { auth } from '../../firebase/config';
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-const LoginForm = ({onClose}) => {
+const LoginForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
-  const formik = useFormik({
-    initialValues: { email: '', password: '' },
-    validationSchema: loginSchema,
-    onSubmit: async (values) => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
-        
-        // REDUX'I GÜNCELLE
-        dispatch(setCredentials({
-          name: userCredential.user.displayName,
-          email: userCredential.user.email
-        }));
-
-        onClose(); 
-      } catch (error) {
-        console.error("Giriş Hatası:", error.message);
-      }
-    },
+  // React Hook Form kurulumu
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    mode: 'onTouched', // Hataları kullanıcı inputtan ayrıldığında gösterir
   });
 
-  const handlePasswordChange = (e) => {
-    const { value } = e.target;
-    formik.setFieldValue('password', value);
-    if (formik.errors.password && value.length >= 6) {
-      formik.setFieldError('password', undefined);
+  const onSubmit = async (data) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      
+      // REDUX'I GÜNCELLE
+      dispatch(setCredentials({
+        name: userCredential.user.displayName,
+        email: userCredential.user.email
+      }));
+
+      onClose(); 
+    } catch (error) {
+      console.error("Giriş Hatası:", error.message);
+      // Not: İstersen buraya toast bildirimi ekleyebiliriz
     }
   };
 
@@ -45,21 +45,37 @@ const LoginForm = ({onClose}) => {
       <h2 className={styles.title}>Log In</h2>
       <p className={styles.description}>Welcome back! Please enter your credentials.</p>
 
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        {/* Email Field */}
         <div className={styles.inputGroup}>
-          <input name="email" placeholder="Email" className={`${styles.input} ${formik.touched.email && formik.errors.email ? styles.inputError : ''}`} {...formik.getFieldProps('email')} />
-          {formik.touched.email && formik.errors.email && <span className={styles.errorText}>{formik.errors.email}</span>}
+          <input 
+            {...register("email")}
+            placeholder="Email" 
+            className={`${styles.input} ${errors.email ? styles.inputError : ''}`} 
+          />
+          {errors.email && <span className={styles.errorText}>{errors.email.message}</span>}
         </div>
 
+        {/* Password Field */}
         <div className={styles.inputGroup}>
           <div className={styles.passwordWrapper}>
-            <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Password" className={`${styles.input} ${formik.touched.password && formik.errors.password ? styles.inputError : ''}`} value={formik.values.password} onChange={handlePasswordChange} onBlur={formik.handleBlur} />
-            <button type="button" className={styles.passwordIcon} onClick={() => setShowPassword(!showPassword)}>
+            <input 
+              {...register("password")}
+              type={showPassword ? 'text' : 'password'} 
+              placeholder="Password" 
+              className={`${styles.input} ${errors.password ? styles.inputError : ''}`} 
+            />
+            <button 
+              type="button" 
+              className={styles.passwordIcon} 
+              onClick={() => setShowPassword(!showPassword)}
+            >
               {showPassword ? <LuEyeOff size={20} /> : <LuEye size={20} />}
             </button>
           </div>
-          {formik.touched.password && formik.errors.password && <span className={styles.errorText}>{formik.errors.password}</span>}
+          {errors.password && <span className={styles.errorText}>{errors.password.message}</span>}
         </div>
+
         <button type="submit" className={styles.submitBtn}>Log In</button>
       </form>
     </div>

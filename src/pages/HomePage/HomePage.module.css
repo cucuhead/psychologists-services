@@ -1,0 +1,161 @@
+/* --- MOBILE (Default - 320px and up) --- */
+.heroSection {
+  display: flex;
+  flex-direction: column; /* Mobilde alt alta */
+  align-items: center;
+  padding: 40px 20px;
+  gap: 40px;
+  text-align: center;
+}
+
+.content {
+  width: 100%;
+}
+
+.title {
+  font-size: 38px; /* Mobilde daha küçük */
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #191a15;
+  margin-bottom: 16px;
+}
+
+.italicText {
+  font-style: italic;
+  color: #54be96;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #191a15;
+  margin: 0 auto 32px;
+  max-width: 100%;
+}
+
+.getStartedBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  background-color: #54be96;
+  color: #fbfbfb;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mainImage {
+  width: 100%;
+  max-width: 340px; /* Mobilde çok büyümesin */
+  height: auto;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.statCard {
+  position: absolute;
+  left: 50%;
+  bottom: -20px; /* Mobilde resmin biraz dışına taşsın */
+  transform: translateX(-50%); /* Mobilde ortalıyoruz */
+  background-color: #54be96;
+  padding: 12px 20px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  width: max-content;
+}
+
+.checkIconBox {
+  width: 40px;
+  height: 40px;
+  background-color: #fbfbfb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkIcon {
+  color: #54be96;
+  font-size: 16px;
+}
+
+.statLabel {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.statCount {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* --- TABLET (768px and up) --- */
+@media screen and (min-width: 768px) {
+  .heroSection {
+    padding: 60px 40px;
+  }
+
+  .title {
+    font-size: 60px;
+  }
+
+  .description {
+    font-size: 18px;
+    max-width: 500px;
+  }
+
+  .mainImage {
+    max-width: 400px;
+  }
+}
+
+/* --- DESKTOP (1200px and up) --- */
+@media screen and (min-width: 1200px) {
+  .heroSection {
+    flex-direction: row; /* Masaüstünde yan yana */
+    justify-content: space-between;
+    padding: 60px 128px; /* Figma standart boşluklar */
+    text-align: left;
+    gap: 80px;
+  }
+
+  .title {
+    font-size: 80px; /* Figma boyutu */
+  }
+
+  .description {
+    margin: 0 0 40px 0;
+  }
+
+  .mainImage {
+    width: 464px;
+    max-width: none;
+  }
+
+  .statCard {
+    left: -35px; /* Figma'daki gibi sol kenarda */
+    bottom: 75px;
+    transform: none;
+    padding: 20px 32px;
+  }
+
+  .statCount {
+    font-size: 24px;
+  }
+}
