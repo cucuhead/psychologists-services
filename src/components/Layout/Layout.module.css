@@ -1,0 +1,9 @@
+.appWrapper {
+  min-height: 100vh;
+  background-color: #fbfbfb;
+}
+
+.mainContent {
+  max-width: 1440px;
+  margin: 0 auto;
+}

@@ -14,6 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px; 
 }
 
 .logo {
@@ -28,7 +29,6 @@
   color: #54be96;
 }
 
-/* Mobilde Navigasyon Kapalı */
 .nav {
   display: none; 
   position: absolute;
@@ -51,16 +51,15 @@
   text-decoration: none;
   color: var(--color-black);
   font-weight: 400;
- transition: var(--transition); /* Yumuşak geçiş için */
+  transition: var(--transition);
   cursor: pointer;
 }
-.link:hover {
-  color: #96d6c5; /* Senin seçtiğin yeşil tonu */
-  /* Altına çok hafif bir çizgi veya gölge istersen: */
-  text-shadow: 0px 0px 1px rgba(150, 214, 197, 0.5);
-}
-.link:global(.active) {
+
+.link:hover, .link:global(.active) {
   color: #54be96;
+}
+
+.link:global(.active) {
   font-weight: 600;
 }
 
@@ -71,48 +70,26 @@
   gap: 8px;
 }
 
-.loginBtn, .registerBtn {
+.loginBtn, .registerBtn, .logoutBtn {
   padding: 8px 16px;
-  cursor:pointer;
+  cursor: pointer;
   font-size: 13px;
   border-radius: var(--radius-button);
   text-decoration: none;
   transition: var(--transition);
   font-weight: 500;
-}
-
-.loginBtn {
- border:none;
-color: var(--color-white);
-   background: #54be96; 
-   margin-right: 8px;
-  
-}
-.loginBtn:hover {
- 
-  transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
-  box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); /* Yumuşak bir gölge */
-}
-
-.registerBtn {
-  background:#54be96;
+  border: none;
   color: var(--color-white);
-  border:none;
+  background: #54be96;
 }
-.registerBtn:hover {
- 
+
+.loginBtn:hover, .registerBtn:hover, .logoutBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3);
 }
-/* Aktif basılma hissi için (Click) */
-.loginBtn:active, .registerBtn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
 
-/* Hamburger (Merkezleme Düzeltildi) */
+/* --- HAMBURGER --- */
 .hamburger {
-    transition: var(--transition);
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -124,33 +101,25 @@ color: var(--color-white);
   cursor: pointer;
   z-index: 100;
   padding: 0;
-  position: relative; /* Çizgilerin merkeze oturması için şart */
-}
-.hamburger:hover .line {
-  background-color: var(--color-green-main); /* Üzerine gelince çizgiler parlasın */
-  box-shadow: 0 0 8px rgba(84, 190, 150, 0.4);
+  position: relative;
 }
 
 .line {
   width: 25px;
   height: 2px;
-  background-color: #96d6c5;
+  background-color: #54be96;
   transition: all 0.3s ease;
-  position: absolute; /* Hepsini üst üste merkeze toplar */
-  transform-origin: center;
+  position: absolute;
 }
 
-/* Normal Hamburger Çizgileri (Pozisyonları elle ayarlandı) */
 .line:nth-child(1) { transform: translateY(-8px); }
-.line:nth-child(2) { opacity: 1; }
 .line:nth-child(3) { transform: translateY(8px); }
 
-/* --- GİRİŞ YAPILDIĞINDAKİ HALİ (USER MENU) --- */
-
+/* --- USER MENU --- */
 .userMenu {
   display: flex;
   align-items: center;
-  gap: 12px; /* Mobilde daha yakın */
+  gap: 12px;
 }
 
 .userInfo {
@@ -170,7 +139,7 @@ color: var(--color-white);
 }
 
 .userIcon {
-  color: white; /* İkon olduğu için artık bu komut çalışacaktır */
+  color: white;
   font-size: 16px;
 }
 
@@ -178,30 +147,10 @@ color: var(--color-white);
   font-weight: 500;
   font-size: 14px;
   color: var(--color-black);
+  white-space: nowrap;
 }
 
-.logoutBtn {
-  padding: 8px 16px;
- 
-  border-radius: var(--radius-button);
-
-  font-weight: 500;
-  font-size: 13px;
- 
-  cursor: pointer;
-  transition: var(--transition);
-  border:none;
-color: var(--color-white);
-   background:#54be96;
-  
-}
-
-.logoutBtn:hover {
-   transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
-  box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3); /* Yumuşak bir gölge */
-}
-
-/* --- 💻 BÜYÜK EKRANLAR (DESKTOP) --- */
+/* --- 💻 BÜYÜK EKRANLAR VE ÖZEL ARA BÖLGE DÜZENLEMESİ --- */
 @media (min-width: 769px) {
   .hamburger {
     display: none;
@@ -213,61 +162,71 @@ color: var(--color-white);
     flex-direction: row;
     width: auto;
     padding: 0;
-    gap: 40px;
     box-shadow: none;
+    /* SIKIŞMA ÇÖZÜMÜ: Gap ekran genişliğine göre esner */
+    gap: clamp(8px, 2vw, 40px); 
   }
 
-  .authWrapper {
-    gap: 8px; 
+  .container {
+    padding: 0 20px;
+    gap: clamp(5px, 1vw, 20px);
   }
 
-  .loginBtn, .registerBtn {
-    padding: 10px 30px;
-    font-size: 16px;
-  }
-  .logoutBtn{
-    padding: 10px 25px;
-    font-size: 16px;
+  /* --- KRİTİK ARALIK (769px - 1024px) --- */
+  @media (max-width: 1024px) {
+    .logo {
+      font-size: 18px; /* Yer kazanmak için logoyu hafif küçült */
+    }
+
+    .link {
+      font-size: 14px; /* Link yazılarını daralt */
+    }
+
+    .userName {
+      font-size: 13px; /* İsmi koru ama bir tık küçült */
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .loginBtn, .registerBtn, .logoutBtn {
+      padding: 8px 14px; /* Butonları daralt */
+      font-size: 14px;
+    }
+
+    .userMenu {
+      gap: 8px;
+    }
+
+    .userInfo {
+      gap: 6px;
+    }
   }
 
-  .link:hover, :global(.active) {
-    color: var(--color-green-main);
+  /* --- MASAÜSTÜ (1025px+) --- */
+  @media (min-width: 1025px) {
+    .container {
+      padding: 0 30px;
+    }
+    
+    .loginBtn, .registerBtn, .logoutBtn {
+      padding: 10px 25px;
+      font-size: 16px;
+    }
+
+    .userIconWrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+
+    .userName {
+      font-size: 16px;
+    }
   }
-
-  .userMenu {
-    gap: 28px;
-  }
-
-  .userInfo {
-    gap: 14px;
-  }
-
-  .userIconWrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-  }
-
-  .userName {
-    font-size: 16px;
-  }
-  
-
-
 }
 
-/* --- YEŞİL ÇARPI (X) ANİMASYONU --- */
-/* Menü açıkken (navOpen durumu) line sınıflarına binen animasyon */
-.lineOpen1 {
-  transform: rotate(45deg) !important;
- background: #54be96;;
-}
-
-.lineOpen2 {
-  opacity: 0 !important;
-}
-
-.lineOpen3 {
-  transform: rotate(-45deg) !important;
-   background: #54be96;;
-}
+/* --- X ANİMASYONU --- */
+.lineOpen1 { transform: rotate(45deg) !important; }
+.lineOpen2 { opacity: 0 !important; }
+.lineOpen3 { transform: rotate(-45deg) !important; }
