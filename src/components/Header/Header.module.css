@@ -3,7 +3,7 @@
   width: 100%;
   border-bottom: 1px solid rgba(25, 26, 21, 0.1);
   background-color: var(--color-white);
-  padding: 20px 0;
+  padding: 18px 0;
   position: relative;
 }
 
@@ -67,6 +67,7 @@
 .authWrapper {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 8px;
 }
 
@@ -81,6 +82,9 @@
   border: none;
   color: var(--color-white);
   background: #54be96;
+}
+.loginBtn{
+  margin-right: 8px;
 }
 
 .loginBtn:hover, .registerBtn:hover, .logoutBtn:hover {
@@ -193,6 +197,9 @@
       padding: 8px 14px; /* Butonları daralt */
       font-size: 14px;
     }
+    .loginBtn{
+      margin-right: 8px;
+    }
 
     .userMenu {
       gap: 8px;
@@ -212,6 +219,9 @@
     .loginBtn, .registerBtn, .logoutBtn {
       padding: 10px 25px;
       font-size: 16px;
+    }
+    .loginBtn{
+      margin-right: 8px;
     }
 
     .userIconWrapper {

@@ -1,0 +1,184 @@
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  position: relative;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  padding: 12px;
+  border: 2px solid rgba(84, 190, 150, 0.2);
+  border-radius: 30px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.onlineStatus {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  background: #38CD3E; /* Yeşil online ışığı */
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.content { flex-grow: 1; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.role { color: #8A8A89; font-weight: 500; margin-bottom: 8px; }
+.name { font-size: 24px; font-weight: 600; color: #191A15; }
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-weight: 500;
+}
+
+.starIcon { color: #FFC531; margin-right: 8px; }
+.price { color: #38CD3E; }
+.divider { color: rgba(25, 26, 21, 0.2); }
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.heartIconActive { color: #54be96; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  background: #F3F3F3;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 16px;
+  color: #8A8A89;
+}
+
+.tag span { color: #191A15; }
+
+.description {
+  color: rgba(25, 26, 21, 0.5);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.readMore {
+  background: none;
+  border: none;
+  color: #191A15;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.appointmentBtn {
+  margin-top: 24px;
+  background: #54be96;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+/* ... önceki stillere ek olarak ... */
+
+.reviewsList {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.reviewerAvatar {
+  width: 44px;
+  height: 44px;
+  background-color: rgba(84, 190, 150, 0.1);
+  color: #54be96;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.reviewerName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #191A15;
+}
+
+.reviewerRating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.starIconSmall {
+  color: #FFC531;
+  font-size: 14px;
+}
+
+.comment {
+  color: rgba(25, 26, 21, 0.5);
+  line-height: 1.25;
+}
+
+.appointmentBtn {
+  background: #54be96;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.appointmentBtn:hover {
+  background: #36a379;
+}
