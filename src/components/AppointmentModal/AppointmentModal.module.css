@@ -1,0 +1,185 @@
+
+.container {
+  padding: 0;
+  overflow: visible !important; /* Takvimin modal dışına taşabilmesi için */
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 48px;
+  margin-bottom: 20px;
+  color: #191a15;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(25, 26, 21, 0.5);
+  margin-bottom: 40px;
+}
+
+.psychologistInfo {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+}
+
+.label {
+  font-size: 12px;
+  color: #8a8a89;
+}
+
+.psycName {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: visible !important;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.row .inputGroup {
+  flex: 1;
+}
+
+.form input, .textarea, .timeInput {
+  padding: 16px 18px;
+  border: 1px solid rgba(25, 26, 21, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+}
+
+.textarea {
+  resize: none;
+}
+
+.inputError {
+  border-color: #ef2447 !important;
+}
+
+.errorMessage {
+  color: #ef2447;
+  font-size: 12px;
+}
+
+.sendBtn {
+  background-color: #3cb371;
+  color: white;
+  padding: 16px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: background 0.2s;
+}
+
+.sendBtn:hover {
+  background-color: #2e8b57;
+}
+
+/* --- DatePicker Figma Overrides --- */
+
+.timeInput {
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 5V10L13 13M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10Z' stroke='%23191A15' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
+}
+
+/* Popper'ın en üstte görünmesini garantiye alıyoruz */
+:global(.react-datepicker-popper) {
+  z-index: 9999 !important;
+}
+
+:global(.react-datepicker) {
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.1) !important;
+  font-family: inherit !important;
+  padding: 16px !important; /* Figma'daki ferahlık için padding artırıldı */
+}
+
+/* ÜÇGENİ KALDIRMA */
+:global(.react-datepicker__triangle) {
+  display: none !important;
+}
+
+:global(.react-datepicker__time-container) {
+  width: 160px !important; /* Genişliği Figma'ya göre biraz artırdım */
+}
+
+:global(.react-datepicker__header--time) {
+  background: white !important;
+  border-bottom: none !important;
+  padding: 0 0 16px 0 !important;
+}
+
+:global(.react-datepicker-time__header) {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  color: #191a15 !important;
+  
+}
+
+/* Saat listesi ve renk geçişleri */
+:global(.react-datepicker__time-list-item) {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 40px !important;
+ 
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  /* Başlangıç rengi: Soft Gri (%30) */
+  color: rgba(25, 26, 21, 0.3) !important; 
+  background-color: transparent !important;
+  transition: color 0.2s ease !important;
+}
+
+/* HOVER DURUMU: Arka plan değişmez, sadece yazı koyulaşır */
+:global(.react-datepicker__time-list-item:hover) {
+  background-color: transparent !important; 
+  color: #191a15 !important; 
+  cursor: pointer;
+}
+
+/* SEÇİLİ DURUM: Figma'daki gibi belirgin tam siyah */
+:global(.react-datepicker__time-list-item--selected) {
+  background-color: transparent !important;
+  color: #191a15 !important;
+  font-weight: 500 !important;
+}
+
+/* Scrollbarı tamamen gizle */
+:global(.react-datepicker__time-list::-webkit-scrollbar) {
+  display: none !important; 
+}
+
+:global(.react-datepicker__time-list) {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
