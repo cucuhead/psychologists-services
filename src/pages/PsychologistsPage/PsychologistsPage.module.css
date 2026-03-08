@@ -49,3 +49,11 @@
   color: #54be96;
   font-weight: 600;
 }
+
+.filterSection {
+  align-self: flex-start; /* Filtreyi en sola yaslar */
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* İçindeki elemanı sola iter */
+  margin-bottom: 32px;
+}

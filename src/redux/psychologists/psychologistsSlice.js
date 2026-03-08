@@ -5,6 +5,7 @@ const psychologistsSlice = createSlice({
   name: 'psychologists',
   initialState: {
     items: [],
+    filter: 'Show all',
     isLoading: false,
     error: null,
     hasMore: true,
@@ -16,7 +17,10 @@ const psychologistsSlice = createSlice({
       state.nextIndex = 0;
       state.hasMore = true;
       state.error = null;
-    }
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -26,15 +30,8 @@ const psychologistsSlice = createSlice({
       })
       .addCase(fetchPsychologists.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        // startIndex (action.meta.arg) 0 ise (ilk yükleme) listeyi yenile
-        if (action.meta.arg === 0) {
-          state.items = action.payload.psychologists;
-        } else {
-          // Değilse, gelen her şeyi direkt sonuna ekle (En basit yöntem)
-          state.items = [...state.items, ...action.payload.psychologists];
-        }
-
+        // ÇÖZÜM: Eski datayla yeniyi birleştirmiyoruz, direkt gelen listeyi set ediyoruz.
+        state.items = action.payload.psychologists; 
         state.nextIndex = action.payload.nextIndex;
         state.hasMore = action.payload.hasMore;
       })
@@ -45,5 +42,5 @@ const psychologistsSlice = createSlice({
   },
 });
 
-export const { clearPsychologists } = psychologistsSlice.actions;
+export const { clearPsychologists, setFilter } = psychologistsSlice.actions;
 export const psychologistsReducer = psychologistsSlice.reducer;

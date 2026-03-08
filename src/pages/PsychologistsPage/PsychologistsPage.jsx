@@ -1,61 +1,100 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPsychologists } from '../../redux/psychologists/operations';
-import PsychologistCard from '../../components/PsychologistCard/PsychologistCard'; // Yeni bileşenimizi import ettik
+import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
+import Filters from '../../components/Filters/Filters';
 import { 
   selectAllPsychologists, 
-  selectIsLoading, 
-  selectHasMore, 
-  selectNextIndex 
+  selectIsLoading 
 } from '../../redux/psychologists/selectors';
 import { clearPsychologists } from '../../redux/psychologists/psychologistsSlice';
 import styles from './PsychologistsPage.module.css';
 
+const filterStrategies = {
+  'A to Z': (list) => [...list].sort((a, b) => a.name.localeCompare(b.name)),
+  'Z to A': (list) => [...list].sort((a, b) => b.name.localeCompare(a.name)),
+  'Less than 10$': (list) => list.filter(p => Number(p.price_per_hour) < 10),
+  'Greater than 10$': (list) => list.filter(p => Number(p.price_per_hour) > 10),
+  
+  // Popular: 4.7 ve üstü
+  'Popular': (list) => list
+    .filter(p => Number(p.rating) >= 4.7)
+    .sort((a, b) => Number(b.rating) - Number(a.rating)),
+
+  // Not popular: 4.7'den kesinlikle küçük olanlar (4.65 buraya düşer!)
+  'Not popular': (list) => list
+    .filter(p => Number(p.rating) < 4.7)
+    .sort((a, b) => Number(a.rating) - Number(b.rating)),
+    
+  'Show all': (list) => list,
+};
+
 const PsychologistsPage = () => {
   const dispatch = useDispatch();
-  
   const psychologists = useSelector(selectAllPsychologists);
   const isLoading = useSelector(selectIsLoading);
-  const hasMore = useSelector(selectHasMore);
-  const nextIndex = useSelector(selectNextIndex);
+  const currentFilter = useSelector((state) => state.psychologists.filter || 'Show all');
+  
+  const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    // Sayfa ilk açıldığında verileri çekiyoruz
-    dispatch(fetchPsychologists(0));
-
-    // Sayfadan ayrılınca verileri temizliyoruz
+    dispatch(fetchPsychologists());
     return () => {
       dispatch(clearPsychologists());
     };
   }, [dispatch]);
 
+  // Kırmızılığı gidermek için render döngüsünü ayırıyoruz
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setVisibleCount(3);
+    }, 0);
+    return () => clearTimeout(timeoutId);
+  }, [currentFilter]);
+
+  const allFilteredAndSorted = useMemo(() => {
+    const strategy = filterStrategies[currentFilter] || filterStrategies['Show all'];
+    const processedList = strategy(psychologists);
+
+    // TALEP EDİLEN GÜNCELLEME: Virgülden sonra 2 hane (4.65 gibi)
+    return processedList.map(p => ({
+      ...p,
+      rating: Number(p.rating).toFixed(2) 
+    }));
+  }, [psychologists, currentFilter]);
+
+  const psychologistsToShow = useMemo(() => {
+    return allFilteredAndSorted.slice(0, visibleCount);
+  }, [allFilteredAndSorted, visibleCount]);
+
   const handleLoadMore = () => {
-    
-    dispatch(fetchPsychologists(nextIndex)); //
+    setVisibleCount(prev => prev + 3);
   };
+
+  const shouldShowLoadMore = psychologistsToShow.length < allFilteredAndSorted.length && !isLoading;
 
   return (
     <div className={styles.container}>
-      {/* İleride buraya Filters bileşeni gelecek */}
+      <div className={styles.filterSection}>
+        <Filters />
+      </div>
       
-      <ul className={styles.list}>
-        {psychologists && psychologists.map((psychologist, index) => {
-          if (!psychologist) return null; // Güvenli render kontrolü
-
-          return (
-            <li key={psychologist.id || index} className={styles.item}>
-               {/* Eski placeholder yerine gerçek kart bileşenimizi koyduk */}
+      {psychologistsToShow.length > 0 ? (
+        <ul className={styles.list}>
+          {psychologistsToShow.map((psychologist) => (
+            // Key olarak id kullanarak çakışmaları engelliyoruz
+            <li key={psychologist.id} className={styles.item}>
                <PsychologistCard psychologist={psychologist} />
             </li>
-          );
-        })}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        !isLoading && <p className={styles.noResults}>No psychologists found matching this filter.</p>
+      )}
 
-      {/* Loading durumu için basit bir bildirim */}
       {isLoading && <p className={styles.loading}>Yükleniyor...</p>}
 
-      {/* Daha fazla veri varsa 'Load more' butonunu göster */}
-      {hasMore && !isLoading && (
+      {shouldShowLoadMore && (
         <button className={styles.loadMoreBtn} onClick={handleLoadMore}>
           Load more
         </button>

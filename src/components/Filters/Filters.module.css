@@ -1,0 +1,77 @@
+.filterWrapper {
+  margin-bottom: 32px;
+  margin-left: 0; /* Sola dayalı olması için */
+  margin-right: auto; /* Sağ tarafı serbest bırakır */
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Label ve dropdown'ı sola hizalar */
+}
+
+.label {
+  font-size: 14px;
+  color: #8A8A89;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.dropdown {
+  position: relative;
+  width: 226px;
+}
+
+.filterBtn {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: #3CB371; 
+  color: #FCFCFC;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+ 
+  transition: background-color 0.2s;
+}
+
+.filterBtn:hover {
+  background-color: #36a367;
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+.optionsList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: 0px 20px 69px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  padding: 14px 0;
+  z-index: 100; /* Takvimle çakışmaması için yüksek tuttuk */
+  list-style: none;
+}
+
+.option {
+  padding: 8px 18px;
+  font-size: 16px;
+  color: rgba(25, 26, 21, 0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.option:hover, .option.active {
+  color: #191A15; 
+  background-color: rgba(25, 26, 21, 0.02); /* Hafif bir hover hissi */
+}
