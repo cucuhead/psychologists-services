@@ -1,28 +1,53 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { addToFavorites, removeFromFavorites } from '../../redux/favorites/favoritesSlice';
+import { selectAllFavorites } from '../../redux/favorites/selectors';
+
 import styles from './PsychologistCard.module.css';
 import { FaStar, FaHeart, FaRegHeart } from 'react-icons/fa';
 import AppointmentModal from '../AppointmentModal/AppointmentModal';
+import Modal from '../Shared/Modal/Modal';
+import LoginForm from '../Auth/LoginForm';
 
 const PsychologistCard = ({ psychologist }) => {
+  const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  // Modal'ı açmak için güvenli bir fonksiyon
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const favorites = useSelector(selectAllFavorites);
+  
+  // ÖNEMLİ: Eğer id yoksa, name gibi benzersiz olabilecek başka bir alanı geçici olarak kontrol edelim 
+  // ama ideal olan her psikoloğun gerçek bir id'si olmasıdır.
+  const psychologistId = psychologist.id || psychologist.name; 
+  
+  const isFavorite = favorites.some(item => (item.id || item.name) === psychologistId);
+
+  const handleFavoriteClick = () => {
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      dispatch(removeFromFavorites(psychologistId));
+    } else {
+      // Gönderdiğimiz nesnenin id içerdiğinden emin oluyoruz
+      dispatch(addToFavorites({ ...psychologist, id: psychologistId }));
+    }
+  };
+
   const handleOpenModal = (e) => {
-    e.preventDefault(); // Her ihtimale karşı sayfa yenilenmesini engelleriz
+    e.preventDefault();
     setIsModalOpen(true);
   };
 
   return (
     <div className={styles.card}>
       <div className={styles.avatarWrapper}>
-        <img 
-          src={psychologist.avatar_url} 
-          alt={psychologist.name} 
-          className={styles.avatar} 
-        />
-        {/* Figma'daki yeşil online noktası */}
+        <img src={psychologist.avatar_url} alt={psychologist.name} className={styles.avatar} />
         <span className={styles.onlineStatus}></span>
       </div>
 
@@ -42,12 +67,18 @@ const PsychologistCard = ({ psychologist }) => {
             <div className={styles.statItem}>
               <span>Price / 1 hour: <span className={styles.price}>{psychologist.price_per_hour}$</span></span>
             </div>
+            
             <button 
               className={styles.favoriteBtn} 
-              onClick={() => setIsFavorite(!isFavorite)}
+              onClick={handleFavoriteClick}
               type="button"
+              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
             >
-              {isFavorite ? <FaHeart className={styles.heartIconActive} /> : <FaRegHeart />}
+              {isFavorite ? (
+                <FaHeart className={styles.heartIconActive} /> 
+              ) : (
+                <FaRegHeart className={styles.heartIconDefault} />
+              )}
             </button>
           </div>
         </div>
@@ -62,11 +93,7 @@ const PsychologistCard = ({ psychologist }) => {
         <p className={styles.description}>{psychologist.about}</p>
 
         {!isExpanded ? (
-          <button 
-            className={styles.readMore} 
-            onClick={() => setIsExpanded(true)}
-            type="button"
-          >
+          <button className={styles.readMore} onClick={() => setIsExpanded(true)} type="button">
             Read more
           </button>
         ) : (
@@ -75,9 +102,7 @@ const PsychologistCard = ({ psychologist }) => {
               {psychologist.reviews?.map((review, index) => (
                 <li key={index} className={styles.reviewItem}>
                   <div className={styles.reviewHeader}>
-                    <div className={styles.reviewerAvatar}>
-                      {review.reviewer?.charAt(0) || "U"} 
-                    </div>
+                    <div className={styles.reviewerAvatar}>{review.reviewer?.charAt(0) || "U"}</div>
                     <div>
                       <h4 className={styles.reviewerName}>{review.reviewer || "Anonymous"}</h4>
                       <div className={styles.reviewerRating}>
@@ -91,23 +116,24 @@ const PsychologistCard = ({ psychologist }) => {
               ))}
             </ul>
 
-            <button 
-              className={styles.appointmentBtn} 
-              onClick={handleOpenModal} // Fonksiyonu buraya bağladık
-              type="button"
-            >
+            <button className={styles.appointmentBtn} onClick={handleOpenModal} type="button">
               Make an appointment
             </button>
           </div>
         )}
       </div>
 
-      {/* Modal'ı kartın en dış kapsayıcısının içinde ama mantıksal olarak ayrı render ediyoruz */}
       {isModalOpen && (
         <AppointmentModal 
           psychologist={psychologist} 
           onClose={() => setIsModalOpen(false)} 
         />
+      )}
+
+      {isLoginModalOpen && (
+        <Modal onClose={() => setIsLoginModalOpen(false)}>
+          <LoginForm onClose={() => setIsLoginModalOpen(false)} />
+        </Modal>
       )}
     </div>
   );
