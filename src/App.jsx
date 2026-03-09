@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from './firebase/config';
 import { setCredentials } from './redux/auth/authSlice';
 import { selectIsRefreshing } from './redux/auth/selectors';
-
+import PrivateRoute from './routes/PrivateRoute'; // Import etmeyi unutma!
 // Sayfa ve Layout Bileşenleri
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
@@ -34,13 +34,17 @@ function App() {
   }
 
   return (
-    <Routes>
-      {/* Layout, Header'ı içinde barındırır ve tüm sayfalara ortak çerçeve sağlar */}
+   <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="psychologists" element={<PsychologistsPage />} />
-        <Route path="favorites" element={<FavoritesPage />} />
-        {/* Tanımlı olmayan bir yere gidilirse ana sayfaya atar */}
+        
+        {/* Favoriler artık korumalı! */}
+        <Route 
+          path="favorites" 
+          element={<PrivateRoute component={<FavoritesPage />} redirectTo="/" />} 
+        />
+        
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
