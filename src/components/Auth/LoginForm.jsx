@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form'; // Formik yerine eklendi
-import { yupResolver } from '@hookform/resolvers/yup'; // Resolver eklendi
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // 1. Bunu ekledik
 import { setCredentials } from '../../redux/auth/authSlice';
 import { loginSchema } from './validationSchema';
 import { LuEye, LuEyeOff } from "react-icons/lu";
@@ -12,31 +13,31 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 const LoginForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // 2. Bunu ekledik
 
-  // React Hook Form kurulumu
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    mode: 'onTouched', // Hataları kullanıcı inputtan ayrıldığında gösterir
+    mode: 'onTouched',
   });
 
   const onSubmit = async (data) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       
-      // REDUX'I GÜNCELLE
       dispatch(setCredentials({
         name: userCredential.user.displayName,
-        email: userCredential.user.email
+        email: userCredential.user.email,
+        uid: userCredential.user.uid
       }));
 
       onClose(); 
+      navigate('/psychologists'); // 3. Ve bunu ekledik!
     } catch (error) {
       console.error("Giriş Hatası:", error.message);
-      // Not: İstersen buraya toast bildirimi ekleyebiliriz
     }
   };
 
@@ -46,7 +47,6 @@ const LoginForm = ({ onClose }) => {
       <p className={styles.description}>Welcome back! Please enter your credentials.</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        {/* Email Field */}
         <div className={styles.inputGroup}>
           <input 
             {...register("email")}
@@ -56,7 +56,6 @@ const LoginForm = ({ onClose }) => {
           {errors.email && <span className={styles.errorText}>{errors.email.message}</span>}
         </div>
 
-        {/* Password Field */}
         <div className={styles.inputGroup}>
           <div className={styles.passwordWrapper}>
             <input 
