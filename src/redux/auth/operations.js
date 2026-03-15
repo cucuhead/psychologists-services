@@ -5,22 +5,20 @@ import {
   signOut, 
   updateProfile 
 } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth } from "../../firebase/config"; // Firebase config dosyanın yolu doğru olmalı
 
 // Kayıt Olma (Register)
 export const register = createAsyncThunk(
   "auth/register",
   async ({ name, email, password }, thunkAPI) => {
     try {
-      // 1. Firebase'de kullanıcı oluştur
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
-      // 2. Kullanıcı ismini güncelle
+      // Kullanıcının profil ismini güncelle
       await updateProfile(userCredential.user, {
         displayName: name,
       });
 
-      // 3. Redux'a dönecek veriyi hazırla
       return {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -31,6 +29,7 @@ export const register = createAsyncThunk(
     }
   }
 );
+
 // Giriş Yapma (Login)
 export const logIn = createAsyncThunk(
   "auth/login",

@@ -18,12 +18,16 @@ const PsychologistCard = ({ psychologist }) => {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const favorites = useSelector(selectAllFavorites);
-  
-  // ÖNEMLİ: Eğer id yoksa, name gibi benzersiz olabilecek başka bir alanı geçici olarak kontrol edelim 
-  // ama ideal olan her psikoloğun gerçek bir id'si olmasıdır.
-  const psychologistId = psychologist.id || psychologist.name; 
-  
-  const isFavorite = favorites.some(item => (item.id || item.name) === psychologistId);
+
+  // ID stabil hale getirildi (id yoksa name kullanılır)
+  const psychologistId = String(psychologist.id ?? psychologist.name);
+
+  // Favori kontrolü
+  const isFavorite =
+    isLoggedIn &&
+    favorites.some(
+      (item) => String(item.id ?? item.name) === psychologistId
+    );
 
   const handleFavoriteClick = () => {
     if (!isLoggedIn) {
@@ -34,7 +38,6 @@ const PsychologistCard = ({ psychologist }) => {
     if (isFavorite) {
       dispatch(removeFromFavorites(psychologistId));
     } else {
-      // Gönderdiğimiz nesnenin id içerdiğinden emin oluyoruz
       dispatch(addToFavorites({ ...psychologist, id: psychologistId }));
     }
   };
@@ -47,7 +50,11 @@ const PsychologistCard = ({ psychologist }) => {
   return (
     <div className={styles.card}>
       <div className={styles.avatarWrapper}>
-        <img src={psychologist.avatar_url} alt={psychologist.name} className={styles.avatar} />
+        <img
+          src={psychologist.avatar_url}
+          alt={psychologist.name}
+          className={styles.avatar}
+        />
         <span className={styles.onlineStatus}></span>
       </div>
 
@@ -57,25 +64,31 @@ const PsychologistCard = ({ psychologist }) => {
             <p className={styles.role}>Psychologist</p>
             <h2 className={styles.name}>{psychologist.name}</h2>
           </div>
-          
+
           <div className={styles.stats}>
             <div className={styles.statItem}>
               <FaStar className={styles.starIcon} />
               <span>Rating: {psychologist.rating}</span>
             </div>
+
             <div className={styles.divider}>|</div>
+
             <div className={styles.statItem}>
-              <span>Price / 1 hour: <span className={styles.price}>{psychologist.price_per_hour}$</span></span>
+              <span>
+                Price / 1 hour:{' '}
+                <span className={styles.price}>
+                  {psychologist.price_per_hour}$
+                </span>
+              </span>
             </div>
-            
-            <button 
-              className={styles.favoriteBtn} 
+
+            <button
+              className={styles.favoriteBtn}
               onClick={handleFavoriteClick}
               type="button"
-              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
             >
               {isFavorite ? (
-                <FaHeart className={styles.heartIconActive} /> 
+                <FaHeart className={styles.heartIconActive} />
               ) : (
                 <FaRegHeart className={styles.heartIconDefault} />
               )}
@@ -84,16 +97,29 @@ const PsychologistCard = ({ psychologist }) => {
         </div>
 
         <div className={styles.tags}>
-          <div className={styles.tag}>Experience: <span>{psychologist.experience}</span></div>
-          <div className={styles.tag}>License: <span>{psychologist.license}</span></div>
-          <div className={styles.tag}>Specialization: <span>{psychologist.specialization}</span></div>
-          <div className={styles.tag}>Initial_consultation: <span>{psychologist.initial_consultation}</span></div>
+          <div className={styles.tag}>
+            Experience: <span>{psychologist.experience}</span>
+          </div>
+          <div className={styles.tag}>
+            License: <span>{psychologist.license}</span>
+          </div>
+          <div className={styles.tag}>
+            Specialization: <span>{psychologist.specialization}</span>
+          </div>
+          <div className={styles.tag}>
+            Initial_consultation:{' '}
+            <span>{psychologist.initial_consultation}</span>
+          </div>
         </div>
 
         <p className={styles.description}>{psychologist.about}</p>
 
         {!isExpanded ? (
-          <button className={styles.readMore} onClick={() => setIsExpanded(true)} type="button">
+          <button
+            className={styles.readMore}
+            onClick={() => setIsExpanded(true)}
+            type="button"
+          >
             Read more
           </button>
         ) : (
@@ -102,21 +128,32 @@ const PsychologistCard = ({ psychologist }) => {
               {psychologist.reviews?.map((review, index) => (
                 <li key={index} className={styles.reviewItem}>
                   <div className={styles.reviewHeader}>
-                    <div className={styles.reviewerAvatar}>{review.reviewer?.charAt(0) || "U"}</div>
+                    <div className={styles.reviewerAvatar}>
+                      {review.reviewer?.charAt(0) || 'U'}
+                    </div>
+
                     <div>
-                      <h4 className={styles.reviewerName}>{review.reviewer || "Anonymous"}</h4>
+                      <h4 className={styles.reviewerName}>
+                        {review.reviewer || 'Anonymous'}
+                      </h4>
+
                       <div className={styles.reviewerRating}>
                         <FaStar className={styles.starIconSmall} />
                         <span>{review.rating}</span>
                       </div>
                     </div>
                   </div>
+
                   <p className={styles.comment}>{review.comment}</p>
                 </li>
               ))}
             </ul>
 
-            <button className={styles.appointmentBtn} onClick={handleOpenModal} type="button">
+            <button
+              className={styles.appointmentBtn}
+              onClick={handleOpenModal}
+              type="button"
+            >
               Make an appointment
             </button>
           </div>
@@ -124,9 +161,9 @@ const PsychologistCard = ({ psychologist }) => {
       </div>
 
       {isModalOpen && (
-        <AppointmentModal 
-          psychologist={psychologist} 
-          onClose={() => setIsModalOpen(false)} 
+        <AppointmentModal
+          psychologist={psychologist}
+          onClose={() => setIsModalOpen(false)}
         />
       )}
 

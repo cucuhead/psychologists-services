@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom'; // useNavigate eklendi
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { logOut } from '../../redux/auth/operations';
 
@@ -16,6 +16,7 @@ const Header = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Yönlendirme için tanımladık
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
 
@@ -30,15 +31,14 @@ const Header = () => {
   const handleLogOut = () => {
     dispatch(logOut());
     setIsMenuOpen(false);
+    navigate('/'); // Çıkış yapınca ana sayfaya yönlendirir
   };
 
   const closeMenu = () => setIsMenuOpen(false);
-
-  // Modal kapatma fonksiyonları
   const closeLoginModal = () => setIsLoginModalOpen(false);
   const closeRegisterModal = () => setIsRegisterModalOpen(false);
 
- return (
+  return (
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo} onClick={closeMenu}>
@@ -54,6 +54,7 @@ const Header = () => {
         <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`}>
           <NavLink to="/" className={styles.link} onClick={closeMenu}>Home</NavLink>
           <NavLink to="/psychologists" className={styles.link} onClick={closeMenu}>Psychologists</NavLink>
+          {/* Favoriler linki sadece giriş yapılmışsa görünür */}
           {isLoggedIn && <NavLink to="/favorites" className={styles.link} onClick={closeMenu}>Favorites</NavLink>}
         </nav>
 
@@ -77,7 +78,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* MODALLAR aynı kalıyor */}
       {isLoginModalOpen && (
         <Modal onClose={closeLoginModal}>
           <LoginForm onClose={closeLoginModal} /> 
