@@ -7,14 +7,12 @@ import { setCredentials } from './redux/auth/authSlice';
 import { selectIsRefreshing } from './redux/auth/selectors';
 
 import PrivateRoute from './routes/PrivateRoute';
-// PublicRoute'u sadece Login/Register sayfaları oluşturursan orada kullanacağız
-
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
 import PsychologistsPage from './pages/PsychologistsPage/PsychologistsPage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 
-import { Toaster } from 'react-hot-toast'; // 1. Import et
+import { Toaster } from 'react-hot-toast'; 
 
 function App() {
   const dispatch = useDispatch();
@@ -39,27 +37,40 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        {/* Ana sayfa artık herkese açık! */}
-        <Route index element={<HomePage />} />
-        
-        <Route path="psychologists" element={<PsychologistsPage />} />
-        
-        {/* Sadece favoriler özel (Private) kalmaya devam ediyor */}
-      <Route 
-  path="favorites" 
-  element={
-    <PrivateRoute 
-      redirectTo="/" 
-      component={<FavoritesPage />} // component olarak gönderiyoruz
-    />
-  } 
-/>
-        
-        <Route path="*" element={<Navigate to="/" />} />
-      </Route>
-    </Routes>
+    <>
+      {/* 1. ÖNEMLİ: Toaster mutlaka burada, Routes'un hemen üstünde olmalı */}
+      <Toaster 
+        position="top-right" 
+        reverseOrder={false} 
+        containerStyle={{
+          zIndex: 999999, // Modal'ın (image_6c7c6c.jpg) bile üstünde görünmesi için çok yüksek değer
+        }}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
+
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="psychologists" element={<PsychologistsPage />} />
+          <Route 
+            path="favorites" 
+            element={
+              <PrivateRoute 
+                redirectTo="/" 
+                component={<FavoritesPage />} 
+              />
+            } 
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

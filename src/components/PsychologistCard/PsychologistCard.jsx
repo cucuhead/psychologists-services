@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import { addToFavorites, removeFromFavorites } from '../../redux/favorites/favoritesSlice';
 import { selectAllFavorites } from '../../redux/favorites/selectors';
+import toast from 'react-hot-toast'; // 1. Toast import edildi
 
 import styles from './PsychologistCard.module.css';
 import { FaStar, FaHeart, FaRegHeart } from 'react-icons/fa';
@@ -19,10 +20,8 @@ const PsychologistCard = ({ psychologist }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const favorites = useSelector(selectAllFavorites);
 
-  // ID stabil hale getirildi (id yoksa name kullanılır)
   const psychologistId = String(psychologist.id ?? psychologist.name);
 
-  // Favori kontrolü
   const isFavorite =
     isLoggedIn &&
     favorites.some(
@@ -30,15 +29,23 @@ const PsychologistCard = ({ psychologist }) => {
     );
 
   const handleFavoriteClick = () => {
+    console.log("Kalbe tıklandı, giriş durumu:", isLoggedIn);
     if (!isLoggedIn) {
+      // 2. Kullanıcıya neden login olması gerektiğini söylüyoruz
+      toast.error("Please log in to add psychologists to your favorites!", {
+        icon: '🔒',
+        duration: 3000,
+      });
       setIsLoginModalOpen(true);
       return;
     }
 
     if (isFavorite) {
       dispatch(removeFromFavorites(psychologistId));
+      toast.success("Removed from favorites"); // Opsiyonel: Çıkarınca da bildirim verebilirsin
     } else {
       dispatch(addToFavorites({ ...psychologist, id: psychologistId }));
+      toast.success("Added to favorites! ❤️"); // Favoriye ekleyince bildirim
     }
   };
 
