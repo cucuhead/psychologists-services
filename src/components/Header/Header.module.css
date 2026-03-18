@@ -240,3 +240,67 @@
 .lineOpen1 { transform: rotate(45deg) !important; }
 .lineOpen2 { opacity: 0 !important; }
 .lineOpen3 { transform: rotate(-45deg) !important; }
+
+/* --- LOGOUT CONFIRMATION MODAL --- */
+.confirmContent {
+  padding: 20px;
+  text-align: center;
+}
+
+.confirmTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-black);
+}
+
+.confirmText {
+  font-size: 16px;
+  color: rgba(25, 26, 21, 0.5);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirmBtn {
+  padding: 12px 24px;
+  background-color: #ef4444; /* Çıkış olduğu için dikkat çekici kırmızı */
+  color: white;
+  border: none;
+  border-radius: var(--radius-button);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.confirmBtn:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+.cancelBtn {
+  padding: 12px 24px;
+  background-color: #f3f4f6;
+  color: var(--color-black);
+  border: none;
+  border-radius: var(--radius-button);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cancelBtn:hover {
+  background-color: #e5e7eb;
+}
+
+/* Mobilde butonları alt alta alalım */
+@media (max-width: 480px) {
+  .confirmActions {
+    flex-direction: column;
+  }
+}

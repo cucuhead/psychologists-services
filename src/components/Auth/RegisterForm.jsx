@@ -1,26 +1,26 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form'; // Formik yerine eklendi
-import { yupResolver } from '@hookform/resolvers/yup'; // Validasyon bağlayıcısı
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../redux/auth/authSlice';
-import { registerSchema } from './validationSchema'; // Mevcut yup şemanı kullanıyoruz
+import { registerSchema } from './validationSchema';
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
 import { auth } from '../../firebase/config'; 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import toast from 'react-hot-toast'; // Import edildi
 
 const RegisterForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
-  // React Hook Form kurulumu
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(registerSchema), // Mevcut Yup şemanı buraya bağladık
-    mode: 'onTouched' // Kullanıcı inputtan çıktığı an hata kontrolü yapar
+    resolver: yupResolver(registerSchema),
+    mode: 'onTouched'
   });
 
   const onSubmit = async (data) => {
@@ -33,13 +33,20 @@ const RegisterForm = ({ onClose }) => {
 
       dispatch(setCredentials({
         name: data.name,
-        email: userCredential.user.email
+        email: userCredential.user.email,
+        uid: userCredential.user.uid // UID eklendi
       }));
 
+      toast.success(`Welcome to the platform, ${data.name}! 🎉`);
       onClose(); 
     } catch (error) {
-      console.error("Kayıt Hatası:", error.message);
-      // Buraya bir toast bildirim veya genel hata mesajı eklenebilir
+      // Yup'ın yakalayamadığı, sadece Firebase'in bildiği hatalar:
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error("This email is already in use. Try logging in!");
+      } else {
+        toast.error("Something went wrong during registration.");
+      }
+      console.error("Kayıt Hatası:", error.code);
     }
   };
 
@@ -49,7 +56,6 @@ const RegisterForm = ({ onClose }) => {
       <p className={styles.description}>Thank you for your interest! Please provide your information.</p>
       
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        {/* Name Input */}
         <div className={styles.inputGroup}>
           <input 
             {...register("name")} 
@@ -59,7 +65,6 @@ const RegisterForm = ({ onClose }) => {
           {errors.name && <span className={styles.errorText}>{errors.name.message}</span>}
         </div>
 
-        {/* Email Input */}
         <div className={styles.inputGroup}>
           <input 
             {...register("email")} 
@@ -69,7 +74,6 @@ const RegisterForm = ({ onClose }) => {
           {errors.email && <span className={styles.errorText}>{errors.email.message}</span>}
         </div>
 
-        {/* Password Input */}
         <div className={styles.inputGroup}>
           <div className={styles.passwordWrapper}>
             <input 
