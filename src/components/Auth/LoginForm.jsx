@@ -2,18 +2,19 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // 1. Bunu ekledik
+import { useNavigate } from 'react-router-dom';
 import { setCredentials } from '../../redux/auth/authSlice';
 import { loginSchema } from './validationSchema';
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
 import { auth } from '../../firebase/config';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import toast from 'react-hot-toast'; // ✅ Adım 1: Import edildi
 
 const LoginForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // 2. Bunu ekledik
+  const navigate = useNavigate();
 
   const {
     register,
@@ -34,10 +35,20 @@ const LoginForm = ({ onClose }) => {
         uid: userCredential.user.uid
       }));
 
+      // ✅ Adım 2: Başarı mesajı (Sıralama: Önce mesaj, sonra yönlendirme)
+      toast.success(`Welcome back, ${userCredential.user.displayName || 'User'}!`); 
       onClose(); 
-      navigate('/psychologists'); // 3. Ve bunu ekledik!
+      navigate('/psychologists');
     } catch (error) {
-      console.error("Giriş Hatası:", error.message);
+      // ✅ Adım 3: Firebase hata yönetimi
+      if (error.code === 'auth/invalid-credential') {
+        toast.error("Invalid email or password.");
+      } else if (error.code === 'auth/too-many-requests') {
+        toast.error("Too many failed attempts. Try again later.");
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
+      console.error("Giriş Hatası Kodu:", error.code);
     }
   };
 

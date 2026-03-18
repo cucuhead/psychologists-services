@@ -1,20 +1,26 @@
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form'; // Controller eklendi
-import DatePicker from "react-datepicker"; // Saat seçici kütüphanesi
-import "react-datepicker/dist/react-datepicker.css"; // Kütüphane stilleri
+import { useForm, Controller } from 'react-hook-form';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Modal from '../Shared/Modal/Modal';
 import styles from './AppointmentModal.module.css';
+import toast from 'react-hot-toast'; // ✅ 1. Toast import edildi
 
 const AppointmentModal = ({ psychologist, onClose }) => {
-  // control nesnesini react-datepicker gibi dış kütüphanelerle bağlamak için kullanıyoruz
   const { register, handleSubmit, control, formState: { errors } } = useForm({
     mode: 'onTouched'
   });
 
   const onSubmit = (data) => {
-    // Veriyi gönderirken saati istediğin formata çevirebilirsin
+    // Veriyi konsola yazdırıyoruz
     console.log("Randevu Bilgileri:", data);
-    alert("Randevu talebiniz başarıyla gönderildi!");
+    
+    // ✅ 2. alert(...) SİLİNDİ, yerine toast eklendi:
+    toast.success(`Your appointment with ${psychologist.name} has been successfully sent!`, {
+      duration: 5000,
+      icon: '📅',
+    });
+
     onClose();
   };
 
@@ -58,7 +64,6 @@ const AppointmentModal = ({ psychologist, onClose }) => {
             </div>
             
             <div className={styles.inputGroup}>
-              {/* Figma'daki özel saat listesi için Controller kullanıyoruz */}
               <Controller
                 control={control}
                 name="time"
@@ -69,7 +74,7 @@ const AppointmentModal = ({ psychologist, onClose }) => {
                     onChange={(date) => field.onChange(date)}
                     showTimeSelect
                     showTimeSelectOnly
-                    timeIntervals={30} // Figma'daki 30 dk aralıklar
+                    timeIntervals={30}
                     timeCaption="Meeting time"
                     dateFormat="HH:mm"
                     placeholderText="00:00"

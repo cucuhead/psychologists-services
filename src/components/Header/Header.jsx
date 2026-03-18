@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink, useNavigate } from 'react-router-dom'; // useNavigate eklendi
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { logOut } from '../../redux/auth/operations';
 
@@ -9,14 +9,16 @@ import LoginForm from '../Auth/LoginForm';
 import RegisterForm from '../Auth/RegisterForm';
 import styles from './Header.module.css';
 import { FaUser } from "react-icons/fa";
+import toast from 'react-hot-toast';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // ✅ Yeni state
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Yönlendirme için tanımladık
+  const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
 
@@ -28,15 +30,24 @@ const Header = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMenuOpen]);
 
-  const handleLogOut = () => {
-    dispatch(logOut());
+  // ✅ Modalı açan fonksiyon
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true);
     setIsMenuOpen(false);
-    navigate('/'); // Çıkış yapınca ana sayfaya yönlendirir
+  };
+
+  // ✅ Gerçek çıkış işlemini yapan fonksiyon
+  const handleConfirmLogOut = () => {
+    dispatch(logOut());
+    setIsLogoutModalOpen(false);
+    toast.success("Successfully logged out. See you soon!"); 
+    navigate('/'); 
   };
 
   const closeMenu = () => setIsMenuOpen(false);
   const closeLoginModal = () => setIsLoginModalOpen(false);
   const closeRegisterModal = () => setIsRegisterModalOpen(false);
+  const closeLogoutModal = () => setIsLogoutModalOpen(false);
 
   return (
     <header className={styles.header}>
@@ -54,7 +65,6 @@ const Header = () => {
         <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`}>
           <NavLink to="/" className={styles.link} onClick={closeMenu}>Home</NavLink>
           <NavLink to="/psychologists" className={styles.link} onClick={closeMenu}>Psychologists</NavLink>
-          {/* Favoriler linki sadece giriş yapılmışsa görünür */}
           {isLoggedIn && <NavLink to="/favorites" className={styles.link} onClick={closeMenu}>Favorites</NavLink>}
         </nav>
 
@@ -67,7 +77,8 @@ const Header = () => {
                 </div>
                 <span className={styles.userName}>{user?.displayName || user?.name}</span>
               </div>
-              <button onClick={handleLogOut} className={styles.logoutBtn}>Log out</button>
+              {/* ✅ Direkt çıkış yerine modalı açıyoruz */}
+              <button onClick={openLogoutModal} className={styles.logoutBtn}>Log out</button>
             </div>
           ) : (
             <div className={styles.authBtns}>
@@ -86,6 +97,20 @@ const Header = () => {
       {isRegisterModalOpen && (
         <Modal onClose={closeRegisterModal}>
           <RegisterForm onClose={closeRegisterModal} /> 
+        </Modal>
+      )}
+
+      {/* ✅ ÇIKIŞ ONAY MODALI */}
+      {isLogoutModalOpen && (
+        <Modal onClose={closeLogoutModal}>
+          <div className={styles.confirmContent}>
+            <h2 className={styles.confirmTitle}>Log Out</h2>
+            <p className={styles.confirmText}>Are you sure you want to log out of your account?</p>
+            <div className={styles.confirmActions}>
+              <button onClick={handleConfirmLogOut} className={styles.confirmBtn}>Yes, Log Out</button>
+              <button onClick={closeLogoutModal} className={styles.cancelBtn}>Cancel</button>
+            </div>
+          </div>
         </Modal>
       )}
     </header>
