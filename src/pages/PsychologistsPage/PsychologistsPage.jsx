@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPsychologists } from '../../redux/psychologists/operations';
 import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
 import Filters from '../../components/Filters/Filters';
+import Loader from '../../components/Shared/Loader/Loader'; // ✅ 1. Loader import edildi
 import { 
   selectAllPsychologists, 
   selectIsLoading 
@@ -16,12 +17,10 @@ const filterStrategies = {
   'Less than 10$': (list) => list.filter(p => Number(p.price_per_hour) < 10),
   'Greater than 10$': (list) => list.filter(p => Number(p.price_per_hour) > 10),
   
-  // Popular: 4.7 ve üstü
   'Popular': (list) => list
     .filter(p => Number(p.rating) >= 4.7)
     .sort((a, b) => Number(b.rating) - Number(a.rating)),
 
-  // Not popular: 4.7'den kesinlikle küçük olanlar (4.65 buraya düşer!)
   'Not popular': (list) => list
     .filter(p => Number(p.rating) < 4.7)
     .sort((a, b) => Number(a.rating) - Number(b.rating)),
@@ -44,7 +43,6 @@ const PsychologistsPage = () => {
     };
   }, [dispatch]);
 
-  // Kırmızılığı gidermek için render döngüsünü ayırıyoruz
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setVisibleCount(3);
@@ -56,7 +54,6 @@ const PsychologistsPage = () => {
     const strategy = filterStrategies[currentFilter] || filterStrategies['Show all'];
     const processedList = strategy(psychologists);
 
-    // TALEP EDİLEN GÜNCELLEME: Virgülden sonra 2 hane (4.65 gibi)
     return processedList.map(p => ({
       ...p,
       rating: Number(p.rating).toFixed(2) 
@@ -82,7 +79,6 @@ const PsychologistsPage = () => {
       {psychologistsToShow.length > 0 ? (
         <ul className={styles.list}>
           {psychologistsToShow.map((psychologist) => (
-            // Key olarak id kullanarak çakışmaları engelliyoruz
             <li key={psychologist.id} className={styles.item}>
                <PsychologistCard psychologist={psychologist} />
             </li>
@@ -92,7 +88,8 @@ const PsychologistsPage = () => {
         !isLoading && <p className={styles.noResults}>No psychologists found matching this filter.</p>
       )}
 
-      {isLoading && <p className={styles.loading}>Yükleniyor...</p>}
+      {/* ✅ 2. "Yükleniyor..." yazısı yerine Loader bileşeni konuldu */}
+      {isLoading && <Loader />}
 
       {shouldShowLoadMore && (
         <button className={styles.loadMoreBtn} onClick={handleLoadMore}>

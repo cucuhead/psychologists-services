@@ -11,6 +11,7 @@ import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
 import PsychologistsPage from './pages/PsychologistsPage/PsychologistsPage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import Loader from './components/Shared/Loader/Loader'; // ✅ Loader eklendi
 
 import { Toaster } from 'react-hot-toast'; 
 
@@ -32,18 +33,18 @@ function App() {
     return () => unsubscribe();
   }, [dispatch]);
 
+  // ✅ Düz yazı silindi, Loader bileşeni eklendi
   if (isRefreshing) {
-    return <div>Yükleniyor...</div>; 
+    return <Loader />; 
   }
 
   return (
     <>
-      {/* 1. ÖNEMLİ: Toaster mutlaka burada, Routes'un hemen üstünde olmalı */}
       <Toaster 
         position="top-right" 
         reverseOrder={false} 
         containerStyle={{
-          zIndex: 999999, // Modal'ın (image_6c7c6c.jpg) bile üstünde görünmesi için çok yüksek değer
+          zIndex: 999999,
         }}
         toastOptions={{
           duration: 4000,

@@ -44,11 +44,7 @@
   background-color: #36a379;
 }
 
-.loading {
-  margin: 20px 0;
-  color: #54be96;
-  font-weight: 600;
-}
+
 
 .filterSection {
   align-self: flex-start; /* Filtreyi en sola yaslar */
