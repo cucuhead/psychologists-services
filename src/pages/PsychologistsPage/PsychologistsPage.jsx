@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'; 
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPsychologists } from '../../redux/psychologists/operations';
 import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
 import Filters from '../../components/Filters/Filters';
 import Loader from '../../components/Shared/Loader/Loader';
-import { 
-  selectAllPsychologists, 
-  selectIsLoading 
+import {
+  selectAllPsychologists,
+  selectIsLoading,
+  selectHasMore,
+  selectLastKey,
 } from '../../redux/psychologists/selectors';
 import { clearPsychologists } from '../../redux/psychologists/psychologistsSlice';
 import styles from './PsychologistsPage.module.css';
@@ -29,65 +31,55 @@ const PsychologistsPage = () => {
   const dispatch = useDispatch();
   const psychologists = useSelector(selectAllPsychologists);
   const isLoading = useSelector(selectIsLoading);
+  const hasMore = useSelector(selectHasMore);
+  const lastKey = useSelector(selectLastKey);
   const currentFilter = useSelector((state) => state.psychologists.filter || 'Show all');
-  
-  const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    dispatch(fetchPsychologists());
-    return () => {
-      dispatch(clearPsychologists());
-    };
+    dispatch(clearPsychologists());
   }, [dispatch]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setVisibleCount(3);
-    }, 0);
-    return () => clearTimeout(timeoutId);
-  }, [currentFilter]);
+    if (psychologists.length === 0 && !isLoading) {
+      dispatch(fetchPsychologists(null));
+    }
+  }, [dispatch, psychologists.length, isLoading]);
 
-  const allFilteredAndSorted = useMemo(() => {
+  const filteredAndSorted = useMemo(() => {
     const strategy = filterStrategies[currentFilter] || filterStrategies['Show all'];
-    const processedList = strategy(psychologists);
-
-    return processedList.map(p => ({
+    return strategy(psychologists).map(p => ({
       ...p,
-      rating: Number(p.rating).toFixed(2) 
+      rating: Number(p.rating).toFixed(2),
     }));
   }, [psychologists, currentFilter]);
 
-  const psychologistsToShow = useMemo(() => {
-    return allFilteredAndSorted.slice(0, visibleCount);
-  }, [allFilteredAndSorted, visibleCount]);
-
   const handleLoadMore = () => {
-    setVisibleCount(prev => prev + 3);
+    dispatch(fetchPsychologists(lastKey));
   };
-
-  const shouldShowLoadMore = psychologistsToShow.length < allFilteredAndSorted.length && !isLoading;
 
   return (
     <div className={styles.container}>
       <div className={styles.filterSection}>
         <Filters />
       </div>
-      
-      {psychologistsToShow.length > 0 ? (
+
+      {filteredAndSorted.length > 0 ? (
         <ul className={styles.list}>
-          {psychologistsToShow.map((psychologist, index) => (
-            <li key={`${psychologist.id}-${index}`} className={styles.item}>
-               <PsychologistCard psychologist={psychologist} />
+          {filteredAndSorted.map((psychologist, index) => (
+            <li key={`${psychologist.id ?? psychologist.name}-${index}`} className={styles.item}>
+              <PsychologistCard psychologist={psychologist} />
             </li>
           ))}
         </ul>
       ) : (
-        !isLoading && <p className={styles.noResults}>No psychologists found matching this filter.</p>
+        !isLoading && (
+          <p className={styles.noResults}>No psychologists found matching this filter.</p>
+        )
       )}
 
       {isLoading && <Loader />}
 
-      {shouldShowLoadMore && (
+      {hasMore && !isLoading && (
         <button className={styles.loadMoreBtn} onClick={handleLoadMore}>
           Load more
         </button>

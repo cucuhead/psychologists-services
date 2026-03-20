@@ -9,12 +9,12 @@ const psychologistsSlice = createSlice({
     isLoading: false,
     error: null,
     hasMore: true,
-    nextIndex: 0
+    lastKey: null,
   },
   reducers: {
     clearPsychologists: (state) => {
       state.items = [];
-      state.nextIndex = 0;
+      state.lastKey = null;
       state.hasMore = true;
       state.error = null;
     },
@@ -30,9 +30,8 @@ const psychologistsSlice = createSlice({
       })
       .addCase(fetchPsychologists.fulfilled, (state, action) => {
         state.isLoading = false;
-     
-        state.items = action.payload.psychologists; 
-        state.nextIndex = action.payload.nextIndex;
+        state.items = [...state.items, ...action.payload.psychologists];
+        state.lastKey = action.payload.lastKey;
         state.hasMore = action.payload.hasMore;
       })
       .addCase(fetchPsychologists.rejected, (state, action) => {

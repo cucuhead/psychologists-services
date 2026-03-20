@@ -1,4 +1,3 @@
-
 .header {
   width: 100%;
   border-bottom: 1px solid rgba(25, 26, 21, 0.1);
@@ -14,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .logo {
@@ -29,33 +28,73 @@
   color: #54be96;
 }
 
-.nav {
-  display: none; 
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: var(--color-white);
+/* ── Desktop nav (hidden on mobile) ── */
+.desktopNav {
+  display: none;
+}
+
+/* ── Desktop auth (hidden on mobile) ── */
+.desktopAuth {
+  display: none;
+}
+
+/* ── Mobile menu ── */
+.mobileMenu {
+  display: none;
   flex-direction: column;
+  background-color: var(--color-white);
   padding: 20px;
   gap: 20px;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   z-index: 99;
 }
 
-.navOpen {
+.mobileMenuOpen {
   display: flex;
 }
 
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileAuthWrapper {
+  border-top: 1px solid rgba(25, 26, 21, 0.1);
+  padding-top: 16px;
+}
+
+.mobileAuthBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 200px;
+}
+
+.mobileUserSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* ── Shared link styles ── */
 .link {
   text-decoration: none;
   color: var(--color-black);
   font-weight: 400;
+  font-size: 16px;
   transition: var(--transition);
   cursor: pointer;
 }
 
-.link:hover, .link:global(.active) {
+.link:hover,
+.link:global(.active) {
   color: #54be96;
 }
 
@@ -63,18 +102,13 @@
   font-weight: 600;
 }
 
-
-.authWrapper {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 8px;
-}
-
-.loginBtn, .registerBtn, .logoutBtn {
-  padding: 8px 16px;
+/* ── Auth buttons ── */
+.loginBtn,
+.registerBtn,
+.logoutBtn {
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   border-radius: var(--radius-button);
   text-decoration: none;
   transition: var(--transition);
@@ -83,20 +117,61 @@
   color: var(--color-white);
   background: #54be96;
 }
-.loginBtn{
-  margin-right: 8px;
-}
 
-.loginBtn:hover, .registerBtn:hover, .logoutBtn:hover {
+.loginBtn:hover,
+.registerBtn:hover,
+.logoutBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3);
 }
 
+/* ── User info ── */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
+.authBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userIconWrapper {
+  width: 32px;
+  height: 32px;
+  background: #54be96;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.userIcon {
+  color: white;
+  font-size: 16px;
+}
+
+.userName {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-black);
+  white-space: nowrap;
+}
+
+/* ── Hamburger ── */
 .hamburger {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
@@ -119,127 +194,93 @@
 .line:nth-child(1) { transform: translateY(-8px); }
 .line:nth-child(3) { transform: translateY(8px); }
 
+.lineOpen1 { transform: rotate(45deg) !important; }
+.lineOpen2 { opacity: 0 !important; }
+.lineOpen3 { transform: rotate(-45deg) !important; }
 
-.userMenu {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.userInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.userIconWrapper {
-  width: 32px;
-  height: 32px;
-  background: #54be96;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.userIcon {
-  color: white;
-  font-size: 16px;
-}
-
-.userName {
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--color-black);
-  white-space: nowrap;
-}
-
-
+/* ── Desktop (769px+) ── */
 @media (min-width: 769px) {
   .hamburger {
     display: none;
   }
 
-  .nav {
+  .mobileMenu {
+    display: none !important;
+  }
+
+  .desktopNav {
     display: flex;
-    position: static;
     flex-direction: row;
-    width: auto;
-    padding: 0;
-    box-shadow: none;
-    
-    gap: clamp(8px, 2vw, 40px); 
+    gap: clamp(8px, 2vw, 40px);
+  }
+
+  .desktopAuth {
+    display: flex;
+    align-items: center;
   }
 
   .container {
     padding: 0 20px;
     gap: clamp(5px, 1vw, 20px);
   }
+}
 
- 
-  @media (max-width: 1024px) {
-    .logo {
-      font-size: 18px; 
-    }
-
-    .link {
-      font-size: 14px; 
-    }
-
-    .userName {
-      font-size: 13px; 
-      max-width: 90px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .loginBtn, .registerBtn, .logoutBtn {
-      padding: 8px 14px; 
-      font-size: 14px;
-    }
-    .loginBtn{
-      margin-right: 8px;
-    }
-
-    .userMenu {
-      gap: 8px;
-    }
-
-    .userInfo {
-      gap: 6px;
-    }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .logo {
+    font-size: 18px;
   }
 
-  
-  @media (min-width: 1025px) {
-    .container {
-      padding: 0 30px;
-    }
-    
-    .loginBtn, .registerBtn, .logoutBtn {
-      padding: 10px 25px;
-      font-size: 16px;
-    }
-    .loginBtn{
-      margin-right: 8px;
-    }
+  .link {
+    font-size: 14px;
+  }
 
-    .userIconWrapper {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-    }
+  .userName {
+    font-size: 13px;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    .userName {
-      font-size: 16px;
-    }
+  .loginBtn,
+  .registerBtn,
+  .logoutBtn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .userMenu {
+    gap: 8px;
+  }
+
+  .userInfo {
+    gap: 6px;
   }
 }
 
-.lineOpen1 { transform: rotate(45deg) !important; }
-.lineOpen2 { opacity: 0 !important; }
-.lineOpen3 { transform: rotate(-45deg) !important; }
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 30px;
+  }
 
+  .loginBtn,
+  .registerBtn,
+  .logoutBtn {
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+
+  .userIconWrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .userName {
+    font-size: 16px;
+  }
+}
+
+/* ── Logout confirm modal ── */
 .confirmContent {
   padding: 20px;
   text-align: center;
@@ -267,7 +308,7 @@
 
 .confirmBtn {
   padding: 12px 24px;
-  background-color: #ef4444; 
+  background-color: #ef4444;
   color: white;
   border: none;
   border-radius: var(--radius-button);

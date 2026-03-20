@@ -1,69 +1,78 @@
-🧠 Psychologists.Services - Online Consultation Platform
-Psychologists.Services, kullanıcıların profesyonel psikologları keşfetmesini, uzmanlık alanlarına göre filtrelemesini ve anlık randevu oluşturmasını sağlayan kapsamlı bir sağlık teknolojisi platformudur. Modern arayüzü ve güvenli altyapısıyla danışan ve uzman arasındaki köprüyü dijitalleştirir.
+# 🧠 Psychologists.Services
 
-🚀 Öne Çıkan Özellikler
-Kullanıcı Yetkilendirme: Firebase Auth ile güvenli kayıt olma, giriş yapma ve oturum yönetimi.
+A web platform for discovering and booking appointments with professional psychologists. Users can browse specialists, filter by name, price or popularity, save favorites, and request consultations — all backed by Firebase.
 
-Dinamik Uzman Kataloğu: Firebase Realtime Database üzerinden çekilen, anlık güncellenen psikolog listesi.
+🔗 **Live Demo:** [psychologists-services.vercel.app](https://psychologists-services.vercel.app)
 
-Gelişmiş Filtreleme: İsim (A-Z, Z-A), saatlik ücret ve popülariteye (Rating) göre dinamik sıralama ve filtreleme seçenekleri.
+---
 
-Favori Sistemi: Sadece yetkili kullanıcıların erişebildiği, sayfa yenilense dahi korunan (LocalStorage) kişisel favori listesi.
+## 🚀 Features
 
-Genişletilmiş Detay Kartları: "Read More" desteği ile uzman yorumlarına ve lisans detaylarına hızlı erişim.
+- **Authentication** — Secure sign up, login and session management via Firebase Auth
+- **Psychologist Catalog** — Real-time data from Firebase Realtime Database with paginated loading (3 cards at a time)
+- **Filtering & Sorting** — Sort by name (A–Z, Z–A), hourly price, or popularity rating
+- **Favorites** — Persistent favorites list (localStorage) available only to authenticated users
+- **Expanded Cards** — "Read more" reveals full profile, reviews, and ratings
+- **Appointment Booking** — Validated form with date/time picker (react-hook-form + yup)
+- **Responsive Design** — Fully responsive from 320px to 1440px
 
-Entegre Randevu Sistemi: react-hook-form ile doğrulanan, tarih ve saat seçimli profesyonel rezervasyon formu.
+---
 
-Kesintisiz UX: "Load More" (Daha Fazla Yükle) yapısıyla optimize edilmiş veri gösterimi ve özel "Loader" animasyonları.
+## 🛠️ Tech Stack
 
-🛠️ Kullanılan Teknolojiler
-Core: React 18, Vite.
+| Category | Technologies |
+|---|---|
+| Core | React 18, Vite |
+| State Management | Redux Toolkit, createAsyncThunk |
+| Backend & Auth | Firebase Realtime Database, Firebase Auth |
+| Forms & Validation | React Hook Form, Yup |
+| Routing | React Router v6 |
+| Styling | CSS Modules, React Hot Toast, React Datepicker |
 
-State Management: Redux Toolkit (Asenkron işlemler için createAsyncThunk).
+---
 
-Backend & Auth: Firebase (Realtime Database & Authentication).
+## 🏗️ Getting Started
 
-Forms & Validation: React Hook Form, Yup.
-
-Routing: React Router 6 (SPA mimarisi).
-
-UI & Styling: CSS Modules (Pixel-perfect tasarım), React Hot Toast (Anlık bildirimler), React Datepicker.
-
-Icons: Figma tasarımına sadık kalınarak optimize edilmiş SVG setleri.
-
-🏗️ Kurulum ve Çalıştırma
-Projeyi yerel makinenizde çalıştırmak için şu adımları izleyin:
-
-Depoyu klonlayın:
-
-Bash
+```bash
+# Clone the repository
 git clone https://github.com/cucuhead/PsychologistsServices.git
-Bağımlılıkları yükleyin:
 
-Bash
+# Install dependencies
 npm install
-Uygulamayı başlatın:
 
-Bash
+# Start the dev server
 npm run dev
-Tarayıcıda açın: http://localhost:5173
+```
 
-🧠 Teknik Kararlar ve Çözümler
-Firebase Entegrasyonu: Veri trafiğini minimize etmek amacıyla psikolog koleksiyonu Firebase Realtime Database üzerinde yapılandırılmış; kullanıcı yetkilendirme işlemleri Firebase Auth ile asenkron olarak yönetilmiştir.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-Pagination (Load More): Teknik şartnameye uygun olarak başlangıçta 3 kart gösterilmekte, her "Load More" tıklamasında state üzerinden +3 veri eklenerek performans odaklı bir listeleme sunulmaktadır.
+---
 
-Yetki Kontrolü (Auth Guard): Favorilere ekleme ve randevu oluşturma gibi kritik aksiyonlar sadece giriş yapmış kullanıcılara açılmıştır; yetkisiz giriş denemelerinde kullanıcı dostu modal ve bildirimler ile yönlendirme sağlanmıştır.
+## ⚙️ Environment Variables
 
-Data Transformation: Firebase'den gelen veriler, kullanıcıya sunulmadan önce useMemo içinde toFixed(2) gibi metodlarla formatlanarak fiyat ve rating tutarlılığı sağlanmıştır.
+Create a `.env` file in the root directory:
 
-Form Validation: Randevu formunda tüm alanların doldurulması zorunlu tutulmuş; e-posta formatı ve telefon numarası doğrulamaları yapılarak veri güvenliği en üst seviyeye çıkarılmıştır.
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_DATABASE_URL=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
 
-Figma Sadakati: Tasarımdaki renk paleti, font ağırlıkları ve interaktif öğeler orijinal tasarıma sadık kalınarak, pixel-perfect anlayışıyla geliştirilmiştir.
+---
 
-Responsive Design: Uygulama, mobil cihazlardan (320px) geniş masaüstü ekranlara (1440px) kadar tüm çözünürlüklerde sorunsuz çalışacak şekilde optimize edilmiştir.
+## 📐 Technical Decisions
 
-👤 Yazar
-İsim: Burcu Budak
+- **Firebase Pagination** — Each "Load more" click sends a new query to Firebase using `orderByKey` + `startAfter` + `limitToFirst(3)`, keeping initial load fast and minimizing data transfer
+- **Auth Guard** — Favorites and appointment booking are restricted to logged-in users; unauthorized attempts show a modal prompt
+- **Persistent Favorites** — Favorites are stored in localStorage and rehydrated on login, surviving page refreshes
+- **Form Validation** — All appointment fields validated with Yup schema; email format and phone number pattern enforced
 
-Rol: Fullstack Developer
+---
+
+## 👤 Author
+
+**Burcu Budak** — Fullstack Developer

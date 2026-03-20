@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { addToFavorites, removeFromFavorites } from '../../redux/favorites/favoritesSlice';
 import { selectAllFavorites } from '../../redux/favorites/selectors';
 import toast from 'react-hot-toast';
@@ -18,6 +18,7 @@ const PsychologistCard = ({ psychologist }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
   const favorites = useSelector(selectAllFavorites);
 
   const psychologistId = String(psychologist.id ?? psychologist.name);
@@ -29,9 +30,7 @@ const PsychologistCard = ({ psychologist }) => {
     );
 
   const handleFavoriteClick = () => {
-    
     if (!isLoggedIn) {
-      
       toast.error("Please log in to add psychologists to your favorites!", {
         icon: '🔒',
         duration: 3000,
@@ -41,16 +40,26 @@ const PsychologistCard = ({ psychologist }) => {
     }
 
     if (isFavorite) {
-      dispatch(removeFromFavorites(psychologistId));
-      toast.success("Removed from favorites"); 
+      dispatch(removeFromFavorites({ id: psychologistId, uid: user.uid }));
+      toast.success("Removed from favorites");
     } else {
-      dispatch(addToFavorites({ ...psychologist, id: psychologistId }));
-      toast.success("Added to favorites! ❤️"); 
+      dispatch(addToFavorites({ ...psychologist, id: psychologistId, uid: user.uid }));
+      toast.success("Added to favorites! ❤️");
     }
   };
 
   const handleOpenModal = (e) => {
     e.preventDefault();
+
+    if (!isLoggedIn) {
+      toast.error("Please log in to make an appointment!", {
+        icon: '🔒',
+        duration: 3000,
+      });
+      setIsLoginModalOpen(true);
+      return;
+    }
+
     setIsModalOpen(true);
   };
 
@@ -133,7 +142,7 @@ const PsychologistCard = ({ psychologist }) => {
           <div className={styles.expandedContent}>
             <ul className={styles.reviewsList}>
               {psychologist.reviews?.map((review, index) => (
-                <li key={index} className={styles.reviewItem}>
+                <li key={`${review.reviewer}-${index}`} className={styles.reviewItem}>
                   <div className={styles.reviewHeader}>
                     <div className={styles.reviewerAvatar}>
                       {review.reviewer?.charAt(0) || 'U'}
@@ -176,7 +185,10 @@ const PsychologistCard = ({ psychologist }) => {
 
       {isLoginModalOpen && (
         <Modal onClose={() => setIsLoginModalOpen(false)}>
-          <LoginForm onClose={() => setIsLoginModalOpen(false)} />
+          <LoginForm
+            onClose={() => setIsLoginModalOpen(false)}
+            redirectTo={window.location.pathname}
+          />
         </Modal>
       )}
     </div>

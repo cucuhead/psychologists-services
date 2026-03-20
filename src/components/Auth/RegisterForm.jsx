@@ -46,7 +46,7 @@ const RegisterForm = ({ onClose }) => {
       } else {
         toast.error("Something went wrong during registration.");
       }
-      console.error("Kayıt Hatası:", error.code);
+     
     }
   };
 

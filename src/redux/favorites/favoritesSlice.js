@@ -1,59 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { logIn, register } from '../auth/operations';
+import { logIn, register, logOut } from '../auth/operations';
 
-const getSavedFavorites = () => {
+const getSavedFavorites = (uid) => {
   try {
-    const savedData = localStorage.getItem('favorites');
+    const savedData = localStorage.getItem(`favorites_${uid}`);
     return savedData ? JSON.parse(savedData) : [];
   } catch {
     return [];
   }
 };
 
+const saveFavorites = (uid, items) => {
+  localStorage.setItem(`favorites_${uid}`, JSON.stringify(items));
+};
+
 const favoritesSlice = createSlice({
   name: 'favorites',
   initialState: {
-    items: getSavedFavorites(),
+    items: [],
+    uid: null,
   },
   reducers: {
     addToFavorites: (state, action) => {
-      
-      const newId = String(action.payload.id || action.payload.name);
-
+      const { uid, ...psychologist } = action.payload;
+      const newId = String(psychologist.id || psychologist.name);
       const isExist = state.items.find(
         item => String(item.id || item.name) === newId
       );
-
       if (!isExist) {
-        
-        state.items.push({ ...action.payload, id: newId });
-        localStorage.setItem('favorites', JSON.stringify(state.items));
+        state.items.push({ ...psychologist, id: newId });
+        saveFavorites(uid, state.items);
       }
     },
-
     removeFromFavorites: (state, action) => {
-      
-      const removeId = String(action.payload);
-
+      const { id, uid } = action.payload;
       state.items = state.items.filter(
-        item => String(item.id || item.name) !== removeId
+        item => String(item.id || item.name) !== String(id)
       );
-
-      localStorage.setItem('favorites', JSON.stringify(state.items));
+      saveFavorites(uid, state.items);
     },
   },
-
   extraReducers: (builder) => {
     builder
-      .addCase(logIn.fulfilled, (state) => {
-        state.items = getSavedFavorites();
+      .addCase(logIn.fulfilled, (state, action) => {
+        state.uid = action.payload.uid;
+        state.items = getSavedFavorites(action.payload.uid);
       })
-      .addCase(register.fulfilled, (state) => {
-        state.items = getSavedFavorites();
+      .addCase(register.fulfilled, (state, action) => {
+        state.uid = action.payload.uid;
+        state.items = getSavedFavorites(action.payload.uid);
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.items = [];
+        state.uid = null;
       });
   },
 });
 
 export const { addToFavorites, removeFromFavorites } = favoritesSlice.actions;
 export const favoritesReducer = favoritesSlice.reducer;
-export const selectAllFavorites = (state) => state.favorites.items;
