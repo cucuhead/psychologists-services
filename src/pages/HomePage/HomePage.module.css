@@ -1,7 +1,7 @@
-/* --- MOBILE (Default - 320px and up) --- */
+
 .heroSection {
   display: flex;
-  flex-direction: column; /* Mobilde alt alta */
+  flex-direction: column; 
   align-items: center;
   padding: 40px 20px;
   gap: 40px;
@@ -13,7 +13,7 @@
 }
 
 .title {
-  font-size: 38px; /* Mobilde daha küçük */
+  font-size: 38px; 
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -58,7 +58,7 @@
 
 .mainImage {
   width: 100%;
-  max-width: 340px; /* Mobilde çok büyümesin */
+  max-width: 340px; 
   height: auto;
   aspect-ratio: 4/5;
   object-fit: cover;
@@ -68,8 +68,8 @@
 .statCard {
   position: absolute;
   left: 50%;
-  bottom: -20px; /* Mobilde resmin biraz dışına taşsın */
-  transform: translateX(-50%); /* Mobilde ortalıyoruz */
+  bottom: -20px; 
+  transform: translateX(-50%); 
   background-color: #54be96;
   padding: 12px 20px;
   border-radius: 15px;
@@ -105,7 +105,7 @@
   font-weight: 700;
 }
 
-/* --- TABLET (768px and up) --- */
+
 @media screen and (min-width: 768px) {
   .heroSection {
     padding: 60px 40px;
@@ -125,18 +125,17 @@
   }
 }
 
-/* --- DESKTOP (1200px and up) --- */
 @media screen and (min-width: 1200px) {
   .heroSection {
-    flex-direction: row; /* Masaüstünde yan yana */
+    flex-direction: row;
     justify-content: space-between;
-    padding: 60px 128px; /* Figma standart boşluklar */
+    padding: 60px 128px;
     text-align: left;
     gap: 80px;
   }
 
   .title {
-    font-size: 80px; /* Figma boyutu */
+    font-size: 80px; 
   }
 
   .description {
@@ -149,7 +148,7 @@
   }
 
   .statCard {
-    left: -35px; /* Figma'daki gibi sol kenarda */
+    left: -35px; 
     bottom: 75px;
     transform: none;
     padding: 20px 32px;

@@ -15,7 +15,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // ✅ Yeni state
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,13 +30,13 @@ const Header = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMenuOpen]);
 
-  // ✅ Modalı açan fonksiyon
+ 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
     setIsMenuOpen(false);
   };
 
-  // ✅ Gerçek çıkış işlemini yapan fonksiyon
+  
   const handleConfirmLogOut = () => {
     dispatch(logOut());
     setIsLogoutModalOpen(false);
@@ -77,7 +77,7 @@ const Header = () => {
                 </div>
                 <span className={styles.userName}>{user?.displayName || user?.name}</span>
               </div>
-              {/* ✅ Direkt çıkış yerine modalı açıyoruz */}
+             
               <button onClick={openLogoutModal} className={styles.logoutBtn}>Log out</button>
             </div>
           ) : (
@@ -100,7 +100,6 @@ const Header = () => {
         </Modal>
       )}
 
-      {/* ✅ ÇIKIŞ ONAY MODALI */}
       {isLogoutModalOpen && (
         <Modal onClose={closeLogoutModal}>
           <div className={styles.confirmContent}>

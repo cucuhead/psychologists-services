@@ -9,7 +9,7 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
 import { auth } from '../../firebase/config';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import toast from 'react-hot-toast'; // ✅ Adım 1: Import edildi
+import toast from 'react-hot-toast'; 
 
 const LoginForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,12 +35,12 @@ const LoginForm = ({ onClose }) => {
         uid: userCredential.user.uid
       }));
 
-      // ✅ Adım 2: Başarı mesajı (Sıralama: Önce mesaj, sonra yönlendirme)
+      
       toast.success(`Welcome back, ${userCredential.user.displayName || 'User'}!`); 
       onClose(); 
       navigate('/psychologists');
     } catch (error) {
-      // ✅ Adım 3: Firebase hata yönetimi
+      
       if (error.code === 'auth/invalid-credential') {
         toast.error("Invalid email or password.");
       } else if (error.code === 'auth/too-many-requests') {

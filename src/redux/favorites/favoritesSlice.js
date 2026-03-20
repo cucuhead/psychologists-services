@@ -17,7 +17,7 @@ const favoritesSlice = createSlice({
   },
   reducers: {
     addToFavorites: (state, action) => {
-      // Gelen objeden ID veya Name'i string olarak alıyoruz
+      
       const newId = String(action.payload.id || action.payload.name);
 
       const isExist = state.items.find(
@@ -25,14 +25,14 @@ const favoritesSlice = createSlice({
       );
 
       if (!isExist) {
-        // Objenin içine tutarlı bir id ekleyerek kaydediyoruz
+        
         state.items.push({ ...action.payload, id: newId });
         localStorage.setItem('favorites', JSON.stringify(state.items));
       }
     },
 
     removeFromFavorites: (state, action) => {
-      // payload direkt ID (string) olarak geliyor
+      
       const removeId = String(action.payload);
 
       state.items = state.items.filter(

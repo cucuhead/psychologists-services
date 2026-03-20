@@ -9,24 +9,19 @@
 .list {
   list-style: none;
   padding: 0;
-  margin: 0 auto 64px auto; /* Butonla aradaki boşluk */
+  margin: 0 auto 64px auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Kartlar arasındaki mesafe */
+  gap: 24px;
 }
 
 .item {
   width: 100%;
 }
 
-/* Geçici Kart Tasarımı (Bunu birazdan detaylandıracağız) */
-.cardPlaceholder {
-  background: #fff;
-  padding: 24px;
-  border-radius: 24px;
-  border: 1px solid rgba(25, 26, 21, 0.1);
-}
+
+
 
 .loadMoreBtn {
   padding: 14px 40px;
@@ -47,9 +42,9 @@
 
 
 .filterSection {
-  align-self: flex-start; /* Filtreyi en sola yaslar */
+  align-self: flex-start; 
   width: 100%;
   display: flex;
-  justify-content: flex-start; /* İçindeki elemanı sola iter */
+  justify-content: flex-start; 
   margin-bottom: 32px;
 }

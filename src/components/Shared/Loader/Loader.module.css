@@ -4,18 +4,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7); /* Hafif şeffaf beyaz arka plan */
+  background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999999; /* Her şeyin, modalın bile üstünde çıksın */
+  z-index: 999999; 
 }
 
 .spinner {
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #54be96; /* Senin o meşhur yeşilin */
+  border-top: 5px solid #54be96; 
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

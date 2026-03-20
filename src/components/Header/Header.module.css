@@ -1,4 +1,4 @@
-/* 1. ANA BLOK: MOBİL (VARSAYILAN) */
+
 .header {
   width: 100%;
   border-bottom: 1px solid rgba(25, 26, 21, 0.1);
@@ -63,7 +63,7 @@
   font-weight: 600;
 }
 
-/* --- AUTH BUTONLARI --- */
+
 .authWrapper {
   display: flex;
   align-items: center;
@@ -92,7 +92,7 @@
   box-shadow: 0 4px 12px rgba(84, 190, 150, 0.3);
 }
 
-/* --- HAMBURGER --- */
+
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -119,7 +119,7 @@
 .line:nth-child(1) { transform: translateY(-8px); }
 .line:nth-child(3) { transform: translateY(8px); }
 
-/* --- USER MENU --- */
+
 .userMenu {
   display: flex;
   align-items: center;
@@ -154,7 +154,7 @@
   white-space: nowrap;
 }
 
-/* --- 💻 BÜYÜK EKRANLAR VE ÖZEL ARA BÖLGE DÜZENLEMESİ --- */
+
 @media (min-width: 769px) {
   .hamburger {
     display: none;
@@ -167,7 +167,7 @@
     width: auto;
     padding: 0;
     box-shadow: none;
-    /* SIKIŞMA ÇÖZÜMÜ: Gap ekran genişliğine göre esner */
+    
     gap: clamp(8px, 2vw, 40px); 
   }
 
@@ -176,25 +176,25 @@
     gap: clamp(5px, 1vw, 20px);
   }
 
-  /* --- KRİTİK ARALIK (769px - 1024px) --- */
+ 
   @media (max-width: 1024px) {
     .logo {
-      font-size: 18px; /* Yer kazanmak için logoyu hafif küçült */
+      font-size: 18px; 
     }
 
     .link {
-      font-size: 14px; /* Link yazılarını daralt */
+      font-size: 14px; 
     }
 
     .userName {
-      font-size: 13px; /* İsmi koru ama bir tık küçült */
+      font-size: 13px; 
       max-width: 90px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .loginBtn, .registerBtn, .logoutBtn {
-      padding: 8px 14px; /* Butonları daralt */
+      padding: 8px 14px; 
       font-size: 14px;
     }
     .loginBtn{
@@ -210,7 +210,7 @@
     }
   }
 
-  /* --- MASAÜSTÜ (1025px+) --- */
+  
   @media (min-width: 1025px) {
     .container {
       padding: 0 30px;
@@ -236,12 +236,10 @@
   }
 }
 
-/* --- X ANİMASYONU --- */
 .lineOpen1 { transform: rotate(45deg) !important; }
 .lineOpen2 { opacity: 0 !important; }
 .lineOpen3 { transform: rotate(-45deg) !important; }
 
-/* --- LOGOUT CONFIRMATION MODAL --- */
 .confirmContent {
   padding: 20px;
   text-align: center;
@@ -269,7 +267,7 @@
 
 .confirmBtn {
   padding: 12px 24px;
-  background-color: #ef4444; /* Çıkış olduğu için dikkat çekici kırmızı */
+  background-color: #ef4444; 
   color: white;
   border: none;
   border-radius: var(--radius-button);
@@ -298,7 +296,6 @@
   background-color: #e5e7eb;
 }
 
-/* Mobilde butonları alt alta alalım */
 @media (max-width: 480px) {
   .confirmActions {
     flex-direction: column;

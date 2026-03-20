@@ -43,7 +43,7 @@
    font-size: 12px; 
   }
 
-/* Senin Header Butonların */
+
 .submitBtn {
   margin-top: 22px; 
   padding: 16px;
@@ -86,6 +86,6 @@
 }
 
 .input {
-  /* İkonun üzerine yazı gelmemesi için sağdan biraz boşluk */
+  
   padding-right: 50px !important;
 }
