@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPsychologists } from '../../redux/psychologists/operations';
 import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
 import Filters from '../../components/Filters/Filters';
-import Loader from '../../components/Shared/Loader/Loader'; // ✅ 1. Loader import edildi
+import Loader from '../../components/Shared/Loader/Loader';
 import { 
   selectAllPsychologists, 
   selectIsLoading 
@@ -16,15 +16,12 @@ const filterStrategies = {
   'Z to A': (list) => [...list].sort((a, b) => b.name.localeCompare(a.name)),
   'Less than 10$': (list) => list.filter(p => Number(p.price_per_hour) < 10),
   'Greater than 10$': (list) => list.filter(p => Number(p.price_per_hour) > 10),
-  
   'Popular': (list) => list
     .filter(p => Number(p.rating) >= 4.7)
     .sort((a, b) => Number(b.rating) - Number(a.rating)),
-
   'Not popular': (list) => list
     .filter(p => Number(p.rating) < 4.7)
     .sort((a, b) => Number(a.rating) - Number(b.rating)),
-    
   'Show all': (list) => list,
 };
 
@@ -78,8 +75,8 @@ const PsychologistsPage = () => {
       
       {psychologistsToShow.length > 0 ? (
         <ul className={styles.list}>
-          {psychologistsToShow.map((psychologist) => (
-            <li key={psychologist.id} className={styles.item}>
+          {psychologistsToShow.map((psychologist, index) => (
+            <li key={`${psychologist.id}-${index}`} className={styles.item}>
                <PsychologistCard psychologist={psychologist} />
             </li>
           ))}
@@ -88,7 +85,6 @@ const PsychologistsPage = () => {
         !isLoading && <p className={styles.noResults}>No psychologists found matching this filter.</p>
       )}
 
-      {/* ✅ 2. "Yükleniyor..." yazısı yerine Loader bileşeni konuldu */}
       {isLoading && <Loader />}
 
       {shouldShowLoadMore && (

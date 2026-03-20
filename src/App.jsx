@@ -11,7 +11,7 @@ import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
 import PsychologistsPage from './pages/PsychologistsPage/PsychologistsPage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
-import Loader from './components/Shared/Loader/Loader'; // ✅ Loader eklendi
+import Loader from './components/Shared/Loader/Loader';
 
 import { Toaster } from 'react-hot-toast'; 
 
@@ -33,7 +33,7 @@ function App() {
     return () => unsubscribe();
   }, [dispatch]);
 
-  // ✅ Düz yazı silindi, Loader bileşeni eklendi
+  // 
   if (isRefreshing) {
     return <Loader />; 
   }

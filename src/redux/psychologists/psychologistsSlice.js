@@ -30,7 +30,7 @@ const psychologistsSlice = createSlice({
       })
       .addCase(fetchPsychologists.fulfilled, (state, action) => {
         state.isLoading = false;
-        // ÇÖZÜM: Eski datayla yeniyi birleştirmiyoruz, direkt gelen listeyi set ediyoruz.
+     
         state.items = action.payload.psychologists; 
         state.nextIndex = action.payload.nextIndex;
         state.hasMore = action.payload.hasMore;

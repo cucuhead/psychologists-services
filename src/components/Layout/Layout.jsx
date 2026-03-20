@@ -8,7 +8,7 @@ const Layout = () => {
     <div className={styles.appWrapper}>
       <Header />
       <main className={styles.mainContent}>
-        {/* Sayfa geçişlerinde beyaz ekran olmasın diye Suspense ekledik */}
+       
         <Suspense fallback={null}>
           <Outlet /> 
         </Suspense>

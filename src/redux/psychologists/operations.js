@@ -11,14 +11,14 @@ export const fetchPsychologists = createAsyncThunk(
 
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // Firebase bazen null indexler döndürebilir, onları temizleyip dizi yapıyoruz
+      
         let psychologists = Array.isArray(data) 
           ? data.filter(item => item !== null) 
           : Object.values(data);
 
         return {
           psychologists,
-          hasMore: false // Artık hasMore kontrolünü sayfa içinde yapacağız
+          hasMore: false 
         };
       }
 

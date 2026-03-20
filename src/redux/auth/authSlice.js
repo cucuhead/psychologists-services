@@ -7,7 +7,7 @@ const authSlice = createSlice({
     user: { name: null, email: null, uid: null },
     isLoggedIn: false,
     isRefreshing: false,
-    error: null, // Kızdığı yer burasıydı, şimdi yönetiyoruz
+    error: null,
   },
   reducers: {
     setCredentials: (state, action) => {
@@ -15,14 +15,14 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.error = null;
     },
-    // Hata mesajını manuel temizlemek istersen
+   
     clearError: (state) => {
       state.error = null;
     }
   },
   extraReducers: (builder) => {
     builder
-      // Register İşlemleri
+
       .addCase(register.fulfilled, (state, action) => {
         state.user = { 
           name: action.payload.displayName, 
@@ -33,10 +33,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(register.rejected, (state, action) => {
-        state.error = action.payload; // Hata gelirse buraya yazar
+        state.error = action.payload; 
       })
       
-      // Login İşlemleri
+    
       .addCase(logIn.fulfilled, (state, action) => {
         state.user = { 
           name: action.payload.displayName, 
@@ -47,10 +47,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(logIn.rejected, (state, action) => {
-        state.error = action.payload; // Login hatasını yakalar
+        state.error = action.payload; 
       })
       
-      // Logout İşlemleri
+      
       .addCase(logOut.fulfilled, (state) => {
         state.user = { name: null, email: null, uid: null };
         state.isLoggedIn = false;

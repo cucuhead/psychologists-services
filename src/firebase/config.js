@@ -1,11 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database"; // getFirestore yerine getDatabase eklendi
+import { getDatabase } from "firebase/database"; 
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  // Realtime Database URL'si şartnamedeki gibi buraya eklenmeli
+
   databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL, 
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
@@ -14,12 +14,12 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Firebase'i başlat
+
 const app = initializeApp(firebaseConfig);
 
-// Servisleri dışarı aktar
+
 export const auth = getAuth(app);
-// Realtime Database referansını 'db' olarak dışarı aktarıyoruz
+
 export const db = getDatabase(app); 
 
 export default app;

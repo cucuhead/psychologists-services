@@ -8,7 +8,7 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
 import { auth } from '../../firebase/config'; 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import toast from 'react-hot-toast'; // Import edildi
+import toast from 'react-hot-toast'; 
 
 const RegisterForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,13 +34,13 @@ const RegisterForm = ({ onClose }) => {
       dispatch(setCredentials({
         name: data.name,
         email: userCredential.user.email,
-        uid: userCredential.user.uid // UID eklendi
+        uid: userCredential.user.uid 
       }));
 
       toast.success(`Welcome to the platform, ${data.name}! 🎉`);
       onClose(); 
     } catch (error) {
-      // Yup'ın yakalayamadığı, sadece Firebase'in bildiği hatalar:
+      
       if (error.code === 'auth/email-already-in-use') {
         toast.error("This email is already in use. Try logging in!");
       } else {

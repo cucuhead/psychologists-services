@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // Redux durumunu okumak için ekledik
-import { selectIsLoggedIn } from '../../redux/auth/selectors'; // Selector'ı import ettik
+import { useSelector } from 'react-redux'; 
+import { selectIsLoggedIn } from '../../redux/auth/selectors'; 
 import styles from './HomePage.module.css';
 import { LuArrowUpRight } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
@@ -8,7 +8,7 @@ import homeImage from '../../assets/home-image.jpg';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  // Kullanıcının giriş yapıp yapmadığını kontrol ediyoruz
+ 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
@@ -21,7 +21,7 @@ const HomePage = () => {
           We help you to reveal your potential, overcome challenges and find a guide in your own life with the help of our experienced psychologists.
         </p>
         
-        {/* Buton her zaman görünecek ama ismi veya yönlendirmesi ihtiyaca göre değişebilir */}
+       
         <button 
           className={styles.getStartedBtn} 
           onClick={() => navigate('/psychologists')}

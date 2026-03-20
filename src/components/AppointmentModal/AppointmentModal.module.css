@@ -1,7 +1,7 @@
 
 .container {
   padding: 0;
-  overflow: visible !important; /* Takvimin modal dışına taşabilmesi için */
+  overflow: visible !important; 
 }
 
 .title {
@@ -103,13 +103,13 @@
   background-color: #2e8b57;
 }
 
-/* --- DatePicker Figma Overrides --- */
+
 
 .timeInput {
   background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 5V10L13 13M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10Z' stroke='%23191A15' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
 }
 
-/* Popper'ın en üstte görünmesini garantiye alıyoruz */
+
 :global(.react-datepicker-popper) {
   z-index: 9999 !important;
 }
@@ -119,16 +119,16 @@
   border-radius: 12px !important;
   box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.1) !important;
   font-family: inherit !important;
-  padding: 16px !important; /* Figma'daki ferahlık için padding artırıldı */
+  padding: 16px !important;
 }
 
-/* ÜÇGENİ KALDIRMA */
+
 :global(.react-datepicker__triangle) {
   display: none !important;
 }
 
 :global(.react-datepicker__time-container) {
-  width: 160px !important; /* Genişliği Figma'ya göre biraz artırdım */
+  width: 160px !important; 
 }
 
 :global(.react-datepicker__header--time) {
@@ -145,7 +145,7 @@
   
 }
 
-/* Saat listesi ve renk geçişleri */
+
 :global(.react-datepicker__time-list-item) {
   display: flex !important;
   justify-content: center !important;
@@ -154,27 +154,27 @@
  
   border-radius: 8px !important;
   font-size: 16px !important;
-  /* Başlangıç rengi: Soft Gri (%30) */
+  
   color: rgba(25, 26, 21, 0.3) !important; 
   background-color: transparent !important;
   transition: color 0.2s ease !important;
 }
 
-/* HOVER DURUMU: Arka plan değişmez, sadece yazı koyulaşır */
+
 :global(.react-datepicker__time-list-item:hover) {
   background-color: transparent !important; 
   color: #191a15 !important; 
   cursor: pointer;
 }
 
-/* SEÇİLİ DURUM: Figma'daki gibi belirgin tam siyah */
+
 :global(.react-datepicker__time-list-item--selected) {
   background-color: transparent !important;
   color: #191a15 !important;
   font-weight: 500 !important;
 }
 
-/* Scrollbarı tamamen gizle */
+
 :global(.react-datepicker__time-list::-webkit-scrollbar) {
   display: none !important; 
 }

@@ -4,24 +4,41 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from '../Shared/Modal/Modal';
 import styles from './AppointmentModal.module.css';
-import toast from 'react-hot-toast'; // ✅ 1. Toast import edildi
+import toast from 'react-hot-toast';
 
 const AppointmentModal = ({ psychologist, onClose }) => {
-  const { register, handleSubmit, control, formState: { errors } } = useForm({
-    mode: 'onTouched'
+  const { 
+    register, 
+    handleSubmit, 
+    control, 
+    formState: { errors, isSubmitting } 
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      name: '',
+      phone: '',
+      email: '',
+      time: null,
+      comment: ''
+    }
   });
 
-  const onSubmit = (data) => {
-    // Veriyi konsola yazdırıyoruz
-    console.log("Randevu Bilgileri:", data);
-    
-    // ✅ 2. alert(...) SİLİNDİ, yerine toast eklendi:
-    toast.success(`Your appointment with ${psychologist.name} has been successfully sent!`, {
-      duration: 5000,
-      icon: '📅',
-    });
+  const onSubmit = async (data) => {
+    if (!data) return;
 
-    onClose();
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast.success(`Your appointment with ${psychologist.name} has been successfully sent!`, {
+        duration: 5000,
+        icon: '📅',
+      });
+
+      onClose();
+    } catch (err) {
+      console.error("Submission error:", err);
+      toast.error("An error occurred while sending the form.");
+    }
   };
 
   return (
@@ -75,7 +92,7 @@ const AppointmentModal = ({ psychologist, onClose }) => {
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}
-                    timeCaption="Meeting time"
+                    timeCaption="Time"
                     dateFormat="HH:mm"
                     placeholderText="00:00"
                     className={`${styles.timeInput} ${errors.time ? styles.inputError : ''}`}
@@ -99,14 +116,23 @@ const AppointmentModal = ({ psychologist, onClose }) => {
             {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
           </div>
           
-          <textarea 
-            {...register("comment")} 
-            placeholder="Comment" 
-            rows="4" 
-            className={styles.textarea}
-          />
+          <div className={styles.inputGroup}>
+            <textarea 
+              {...register("comment", { required: "Comment is required" })} 
+              placeholder="Comment" 
+              rows="4" 
+              className={`${styles.textarea} ${errors.comment ? styles.inputError : ''}`}
+            />
+            {errors.comment && <span className={styles.errorMessage}>{errors.comment.message}</span>}
+          </div>
 
-          <button type="submit" className={styles.sendBtn}>Send</button>
+          <button 
+            type="submit" 
+            className={styles.sendBtn} 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send"}
+          </button>
         </form>
       </div>
     </Modal>

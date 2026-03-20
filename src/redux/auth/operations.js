@@ -5,16 +5,16 @@ import {
   signOut, 
   updateProfile 
 } from "firebase/auth";
-import { auth } from "../../firebase/config"; // Firebase config dosyanın yolu doğru olmalı
+import { auth } from "../../firebase/config"; 
 
-// Kayıt Olma (Register)
+
 export const register = createAsyncThunk(
   "auth/register",
   async ({ name, email, password }, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
-      // Kullanıcının profil ismini güncelle
+     
       await updateProfile(userCredential.user, {
         displayName: name,
       });
@@ -30,7 +30,7 @@ export const register = createAsyncThunk(
   }
 );
 
-// Giriş Yapma (Login)
+
 export const logIn = createAsyncThunk(
   "auth/login",
   async ({ email, password }, thunkAPI) => {
@@ -48,7 +48,7 @@ export const logIn = createAsyncThunk(
   }
 );
 
-// Oturumu Kapatma (Logout)
+
 export const logOut = createAsyncThunk(
   "auth/logout",
   async (_, thunkAPI) => {

@@ -1,8 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux'; // Redux bağlantısı için
-import { BrowserRouter } from 'react-router-dom'; // Rotalar için
-import { store } from './redux/store'; // Senin oluşturduğun store
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom'; 
+import { store } from './redux/store'; 
 import './index.css';
 import App from './App.jsx';
 
