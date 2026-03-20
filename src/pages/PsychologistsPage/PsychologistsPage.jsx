@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPsychologists } from '../../redux/psychologists/operations';
 import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
@@ -7,11 +7,11 @@ import Loader from '../../components/Shared/Loader/Loader';
 import {
   selectAllPsychologists,
   selectIsLoading,
-  selectHasMore,
-  selectLastKey,
 } from '../../redux/psychologists/selectors';
 import { clearPsychologists } from '../../redux/psychologists/psychologistsSlice';
 import styles from './PsychologistsPage.module.css';
+
+const PAGE_SIZE = 3;
 
 const filterStrategies = {
   'A to Z': (list) => [...list].sort((a, b) => a.name.localeCompare(b.name)),
@@ -31,19 +31,18 @@ const PsychologistsPage = () => {
   const dispatch = useDispatch();
   const psychologists = useSelector(selectAllPsychologists);
   const isLoading = useSelector(selectIsLoading);
-  const hasMore = useSelector(selectHasMore);
-  const lastKey = useSelector(selectLastKey);
   const currentFilter = useSelector((state) => state.psychologists.filter || 'Show all');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     dispatch(clearPsychologists());
+    dispatch(fetchPsychologists());
   }, [dispatch]);
 
   useEffect(() => {
-    if (psychologists.length === 0 && !isLoading) {
-      dispatch(fetchPsychologists(null));
-    }
-  }, [dispatch, psychologists.length, isLoading]);
+    setVisibleCount(PAGE_SIZE);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentFilter]);
 
   const filteredAndSorted = useMemo(() => {
     const strategy = filterStrategies[currentFilter] || filterStrategies['Show all'];
@@ -53,8 +52,11 @@ const PsychologistsPage = () => {
     }));
   }, [psychologists, currentFilter]);
 
+  const psychologistsToShow = filteredAndSorted.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredAndSorted.length;
+
   const handleLoadMore = () => {
-    dispatch(fetchPsychologists(lastKey));
+    setVisibleCount(prev => prev + PAGE_SIZE);
   };
 
   return (
@@ -63,9 +65,9 @@ const PsychologistsPage = () => {
         <Filters />
       </div>
 
-      {filteredAndSorted.length > 0 ? (
+      {psychologistsToShow.length > 0 ? (
         <ul className={styles.list}>
-          {filteredAndSorted.map((psychologist, index) => (
+          {psychologistsToShow.map((psychologist, index) => (
             <li key={`${psychologist.id ?? psychologist.name}-${index}`} className={styles.item}>
               <PsychologistCard psychologist={psychologist} />
             </li>
