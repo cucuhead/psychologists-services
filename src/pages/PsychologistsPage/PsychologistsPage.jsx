@@ -16,8 +16,8 @@ const PAGE_SIZE = 3;
 const filterStrategies = {
   'A to Z': (list) => [...list].sort((a, b) => a.name.localeCompare(b.name)),
   'Z to A': (list) => [...list].sort((a, b) => b.name.localeCompare(a.name)),
-  'Less than 10$': (list) => list.filter(p => Number(p.price_per_hour) < 10),
-  'Greater than 10$': (list) => list.filter(p => Number(p.price_per_hour) > 10),
+  'Less than 170$': (list) => list.filter(p => Number(p.price_per_hour) < 170),
+  'Greater than 170$': (list) => list.filter(p => Number(p.price_per_hour) > 170),
   'Popular': (list) => list
     .filter(p => Number(p.rating) >= 4.7)
     .sort((a, b) => Number(b.rating) - Number(a.rating)),

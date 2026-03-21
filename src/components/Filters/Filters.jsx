@@ -4,7 +4,7 @@ import { setFilter } from '../../redux/psychologists/psychologistsSlice';
 import styles from './Filters.module.css';
 
 const options = [
-  'A to Z', 'Z to A', 'Less than 10$', 'Greater than 10$',
+  'A to Z', 'Z to A', 'Less than 170$', 'Greater than 170$',
   'Popular', 'Not popular', 'Show all'
 ];
 
