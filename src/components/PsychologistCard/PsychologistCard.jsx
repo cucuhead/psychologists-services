@@ -44,12 +44,18 @@ const PsychologistCard = ({ psychologist }) => {
     }
 
     if (isFavorite) {
-      dispatch(removeFromFavorites({ id: psychologistId, uid: user.uid }));
+      dispatch(removeFromFavorites({
+        id: psychologistId,
+        uid: user.uid,
+        name: psychologist.name,
+      }));
       toast.success('Removed from favorites');
     } else {
-      dispatch(
-        addToFavorites({ ...psychologist, id: psychologistId, uid: user.uid })
-      );
+      dispatch(addToFavorites({
+        ...psychologist,
+        id: psychologistId,
+        uid: user.uid,
+      }));
       toast.success('Added to favorites! ❤️');
     }
   };

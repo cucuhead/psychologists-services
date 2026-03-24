@@ -40,8 +40,12 @@ const favoritesSlice = createSlice({
       }
     },
     removeFromFavorites: (state, action) => {
-      const { id, uid } = action.payload;
-      state.items = state.items.filter(item => resolveId(item) !== String(id));
+      const { id, uid, name } = action.payload;
+      state.items = state.items.filter(item => {
+        const itemId = resolveId(item);
+        const itemName = String(item.name ?? '');
+        return itemId !== String(id) && itemName !== String(name ?? '');
+      });
       saveFavorites(uid, state.items);
     },
     setFavoritesFilter: (state, action) => {
