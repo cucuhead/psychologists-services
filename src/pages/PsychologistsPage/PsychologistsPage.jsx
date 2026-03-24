@@ -9,6 +9,7 @@ import {
   selectCursor,
   selectFilter,
 } from '../../redux/psychologists/selectors';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import PsychologistCard from '../../components/PsychologistCard/PsychologistCard';
 import Filters from '../../components/Filters/Filters';
 import Loader from '../../components/Shared/Loader/Loader';
@@ -17,16 +18,16 @@ import styles from './PsychologistsPage.module.css';
 const PsychologistsPage = () => {
   const dispatch = useDispatch();
   const psychologists = useSelector(selectAllPsychologists);
-  const isLoading    = useSelector(selectIsLoading);
-  const hasMore      = useSelector(selectHasMore);
-  const cursor       = useSelector(selectCursor);
+  const isLoading     = useSelector(selectIsLoading);
+  const hasMore       = useSelector(selectHasMore);
+  const cursor        = useSelector(selectCursor);
   const currentFilter = useSelector(selectFilter);
+  const isLoggedIn    = useSelector(selectIsLoggedIn);
 
-  // Filter değiştiğinde state'i sıfırla ve ilk sayfayı çek
   useEffect(() => {
     dispatch(clearPsychologists());
     dispatch(fetchPsychologists({ filterName: currentFilter }));
-  }, [dispatch, currentFilter]);
+  }, [dispatch, currentFilter, isLoggedIn]);
 
   const handleLoadMore = () => {
     dispatch(loadMorePsychologists({ filterName: currentFilter, cursor }));
