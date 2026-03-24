@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchPsychologists, loadMorePsychologists } from './operations';
-import { logOut } from '../auth/operations';
+import { logOut, logIn, register } from '../auth/operations';
 
 const initialState = {
   items: [],
@@ -58,6 +58,18 @@ const psychologistsSlice = createSlice({
       .addCase(loadMorePsychologists.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(logIn.fulfilled, (state) => {
+        state.filter = 'Show all';
+        state.items = [];
+        state.hasMore = false;
+        state.cursor = null;
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.filter = 'Show all';
+        state.items = [];
+        state.hasMore = false;
+        state.cursor = null;
       })
       .addCase(logOut.fulfilled, (state) => {
         state.filter = 'Show all';

@@ -27,10 +27,11 @@ const PsychologistCard = ({ psychologist }) => {
 
   const isFavorite =
     isLoggedIn &&
-    favorites.some(
-      (item) =>
-        String(item._firebaseKey ?? item.id ?? item.name) === psychologistId
-    );
+    favorites.some((item) => {
+      const itemKey = String(item._firebaseKey ?? item.id ?? item.name);
+      const itemName = String(item.name ?? '');
+      return itemKey === psychologistId || itemName === String(psychologist.name ?? '');
+    });
 
   const handleFavoriteClick = () => {
     if (!isLoggedIn) {

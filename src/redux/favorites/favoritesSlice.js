@@ -53,10 +53,12 @@ const favoritesSlice = createSlice({
       .addCase(logIn.fulfilled, (state, action) => {
         state.uid = action.payload.uid;
         state.items = getSavedFavorites(action.payload.uid);
+        state.filter = 'Show all';
       })
       .addCase(register.fulfilled, (state, action) => {
         state.uid = action.payload.uid;
         state.items = getSavedFavorites(action.payload.uid);
+        state.filter = 'Show all';
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
         if (!action.payload) return;
