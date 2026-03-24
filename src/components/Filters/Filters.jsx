@@ -8,11 +8,14 @@ const options = [
   'Popular', 'Not popular', 'Show all'
 ];
 
-const Filters = () => {
+const Filters = ({ currentFilter: externalFilter, onFilterChange }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const currentFilter = useSelector(state => state.psychologists.filter || 'Show all');
+  const reduxFilter = useSelector(state => state.psychologists.filter || 'Show all');
   const dispatch = useDispatch();
   const ref = useRef(null);
+
+  const isControlled = externalFilter !== undefined && onFilterChange !== undefined;
+  const currentFilter = isControlled ? externalFilter : reduxFilter;
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -23,7 +26,11 @@ const Filters = () => {
   }, []);
 
   const handleSelect = (option) => {
-    dispatch(setFilter(option));
+    if (isControlled) {
+      onFilterChange(option);
+    } else {
+      dispatch(setFilter(option));
+    }
     setIsOpen(false);
   };
 

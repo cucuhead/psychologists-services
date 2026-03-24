@@ -2,7 +2,7 @@
 
 A web platform for discovering and booking appointments with professional psychologists. Users can browse specialists, filter by name, price or popularity, save favorites, and request consultations — all backed by Firebase.
 
-🔗 **Live Demo:** [psychologists-services.vercel.app](https://psychologists-services.vercel.app)
+🔗 **Live Demo:** [psychologists-services-beta.vercel.app](https://psychologists-services-beta.vercel.app)
 
 ---
 
@@ -32,7 +32,6 @@ A web platform for discovering and booking appointments with professional psycho
 ---
 
 ## 🏗️ Getting Started
-
 ```bash
 # Clone the repository
 git clone https://github.com/cucuhead/PsychologistsServices.git
@@ -51,7 +50,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## ⚙️ Environment Variables
 
 Create a `.env` file in the root directory:
-
 ```
 VITE_FIREBASE_API_KEY=
 VITE_FIREBASE_AUTH_DOMAIN=
@@ -70,6 +68,13 @@ VITE_FIREBASE_APP_ID=
 - **Auth Guard** — Favorites and appointment booking are restricted to logged-in users; unauthorized attempts show a modal prompt
 - **Persistent Favorites** — Favorites are stored in localStorage and rehydrated on login, surviving page refreshes
 - **Form Validation** — All appointment fields validated with Yup schema; email format and phone number pattern enforced
+
+---
+
+## 📎 References
+
+- 🎨 **Design Mockup:** [Figma](https://www.figma.com/design/I5vjNb0NsJOpQRnRpMloSY/Psychologists.Services?node-id=0-1&p=f&t=LGNw0F67aJFhu5cJ-0)
+- 📋 **Technical Specification:** [Google Docs](https://docs.google.com/document/d/1XbBDAmSOA0RxarsYS2X7xfVEuIgBoW4Qkp3gucw1wOc/edit?tab=t.0)
 
 ---
 

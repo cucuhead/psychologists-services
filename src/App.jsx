@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from './firebase/config';
-import { setCredentials } from './redux/auth/authSlice';
+import { refreshUser } from './redux/auth/operations';
 
 import PrivateRoute from './routes/PrivateRoute';
 import Layout from './components/Layout/Layout';
@@ -11,7 +9,6 @@ import HomePage from './pages/HomePage/HomePage';
 import PsychologistsPage from './pages/PsychologistsPage/PsychologistsPage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import Loader from './components/Shared/Loader/Loader';
-
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -19,18 +16,7 @@ function App() {
   const [isRefreshing, setIsRefreshing] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(setCredentials({
-          name: user.displayName,
-          email: user.email,
-          uid: user.uid
-        }));
-      }
-      setIsRefreshing(false);
-    });
-
-    return () => unsubscribe();
+    dispatch(refreshUser()).finally(() => setIsRefreshing(false));
   }, [dispatch]);
 
   if (isRefreshing) {
@@ -45,13 +31,9 @@ function App() {
         containerStyle={{ zIndex: 999999 }}
         toastOptions={{
           duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
+          style: { background: '#363636', color: '#fff' },
         }}
       />
-
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -59,10 +41,7 @@ function App() {
           <Route
             path="favorites"
             element={
-              <PrivateRoute
-                redirectTo="/"
-                component={<FavoritesPage />}
-              />
+              <PrivateRoute redirectTo="/" component={<FavoritesPage />} />
             }
           />
           <Route path="*" element={<Navigate to="/" />} />

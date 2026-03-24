@@ -21,17 +21,20 @@ const PsychologistCard = ({ psychologist }) => {
   const user = useSelector(selectUser);
   const favorites = useSelector(selectAllFavorites);
 
-  const psychologistId = String(psychologist.id ?? psychologist.name);
+  const psychologistId = String(
+    psychologist._firebaseKey ?? psychologist.id ?? psychologist.name
+  );
 
   const isFavorite =
     isLoggedIn &&
     favorites.some(
-      (item) => String(item.id ?? item.name) === psychologistId
+      (item) =>
+        String(item._firebaseKey ?? item.id ?? item.name) === psychologistId
     );
 
   const handleFavoriteClick = () => {
     if (!isLoggedIn) {
-      toast.error("Please log in to add psychologists to your favorites!", {
+      toast.error('Please log in to add psychologists to your favorites!', {
         icon: '🔒',
         duration: 3000,
       });
@@ -41,10 +44,12 @@ const PsychologistCard = ({ psychologist }) => {
 
     if (isFavorite) {
       dispatch(removeFromFavorites({ id: psychologistId, uid: user.uid }));
-      toast.success("Removed from favorites");
+      toast.success('Removed from favorites');
     } else {
-      dispatch(addToFavorites({ ...psychologist, id: psychologistId, uid: user.uid }));
-      toast.success("Added to favorites! ❤️");
+      dispatch(
+        addToFavorites({ ...psychologist, id: psychologistId, uid: user.uid })
+      );
+      toast.success('Added to favorites! ❤️');
     }
   };
 
@@ -52,7 +57,7 @@ const PsychologistCard = ({ psychologist }) => {
     e.preventDefault();
 
     if (!isLoggedIn) {
-      toast.error("Please log in to make an appointment!", {
+      toast.error('Please log in to make an appointment!', {
         icon: '🔒',
         duration: 3000,
       });
@@ -142,24 +147,24 @@ const PsychologistCard = ({ psychologist }) => {
           <div className={styles.expandedContent}>
             <ul className={styles.reviewsList}>
               {psychologist.reviews?.map((review, index) => (
-                <li key={`${review.reviewer}-${index}`} className={styles.reviewItem}>
+                <li
+                  key={`${review.reviewer}-${index}`}
+                  className={styles.reviewItem}
+                >
                   <div className={styles.reviewHeader}>
                     <div className={styles.reviewerAvatar}>
                       {review.reviewer?.charAt(0) || 'U'}
                     </div>
-
                     <div>
                       <h4 className={styles.reviewerName}>
                         {review.reviewer || 'Anonymous'}
                       </h4>
-
                       <div className={styles.reviewerRating}>
                         <FaStar className={styles.starIconSmall} />
                         <span>{review.rating}</span>
                       </div>
                     </div>
                   </div>
-
                   <p className={styles.comment}>{review.comment}</p>
                 </li>
               ))}

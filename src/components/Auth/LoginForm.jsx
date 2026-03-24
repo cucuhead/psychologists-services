@@ -2,26 +2,22 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { setCredentials } from '../../redux/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { logIn } from '../../redux/auth/operations';
 import { loginSchema } from './validationSchema';
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import styles from './Auth.module.css';
-import { auth } from '../../firebase/config';
-import { signInWithEmailAndPassword } from "firebase/auth";
 import toast from 'react-hot-toast';
 
-const LoginForm = ({ onClose, redirectTo }) => {
+const LoginForm = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname;
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(loginSchema),
     mode: 'onTouched',
@@ -29,21 +25,14 @@ const LoginForm = ({ onClose, redirectTo }) => {
 
   const onSubmit = async (data) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      dispatch(setCredentials({
-        name: userCredential.user.displayName,
-        email: userCredential.user.email,
-        uid: userCredential.user.uid
-      }));
-
-      toast.success(`Welcome back, ${userCredential.user.displayName || 'User'}!`);
+      const result = await dispatch(logIn({ email: data.email, password: data.password })).unwrap();
+      toast.success(`Welcome back, ${result.displayName || 'User'}!`);
       onClose();
-      navigate(from || redirectTo || '/psychologists');
+      navigate('/psychologists');
     } catch (error) {
-      if (error.code === 'auth/invalid-credential') {
+      if (error.includes('invalid-credential')) {
         toast.error("Invalid email or password.");
-      } else if (error.code === 'auth/too-many-requests') {
+      } else if (error.includes('too-many-requests')) {
         toast.error("Too many failed attempts. Try again later.");
       } else {
         toast.error("Login failed. Please try again.");
@@ -85,7 +74,9 @@ const LoginForm = ({ onClose, redirectTo }) => {
           {errors.password && <span className={styles.errorText}>{errors.password.message}</span>}
         </div>
 
-        <button type="submit" className={styles.submitBtn}>Log In</button>
+        <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Log In'}
+        </button>
       </form>
     </div>
   );
